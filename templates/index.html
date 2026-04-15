@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Third Level | Research Project</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>The Third Level Research</title>
 </head>
 <body>
-    <nav>
-        <div class="logo">Project: Third Level</div>
-    </nav>
 
     <header class="hero">
-        <h1>The Third Level: Escapism or Reality?</h1>
-        <p>Analyzing the Psychological urge to flee the Modern World</p>
+        <h1 class="reveal-text">The Third Level</h1>
+        <p>A Grade 12 Research Project on Escapism & Stress</p>
     </header>
 
-    <main>
-        <section id="psychology" class="content-box">
-            <h2>1. What is Escapism?</h2>
-            <p>In psychology, escapism is the mental diversion from the perceived unpleasantness or boredom of daily life. It is often a self-defense mechanism against stress. While it can be "restorative" (like reading a book to relax), it can also become "avoidant," where a person denies reality—much like Charley in the story.</p>
-        </section>
-
-        <section id="comparison" class="content-box">
-            <h2>2. Stress: 1890s vs. 2026</h2>
-            <div class="grid-container">
-                <div class="era-card">
-                    <h3>Life in the 1890s</h3>
-                    <ul>
-                        <li>Post-War recovery and rapid industrialization.</li>
-                        <li>Overcrowded cities but a "slower" pace of communication.</li>
-                        <li>Stability of tradition vs. fear of change.</li>
-                    </ul>
-                </div>
-                <div class="era-card">
-                    <h3>Modern Life (2026)</h3>
-                    <ul>
-                        <li>Digital burnout and constant connectivity.</li>
-                        <li>Global uncertainty and environmental anxiety.</li>
-                        <li>The "Hustle Culture" and lack of mental quiet.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="examples" class="content-box">
-            <h2>3. Modern "Third Levels"</h2>
-            <p>Today, people seek escape through Virtual Reality (VR), nostalgic fashion trends, and "off-the-grid" living. Like Charley's Galesburg, these represent a desire for a world that feels simpler and more controllable.</p>
-        </section>
-
-        <section id="history" class="content-box">
-            <h2>4. The Symbolism of Grand Central</h2>
-            <p>Grand Central Station is more than a hub; it's a labyrinth. Historically, its 1913 reconstruction made it the heart of New York. In the story, it acts as a "tree" pushing out new tunnels, symbolizing how the mind constantly searches for new exits from reality.</p>
-        </section>
-
-        <section id="verdict" class="content-box">
-            <h2>5. Solution or Illusion?</h2>
-            <div class="final-verdict">
-                <p><strong>The Verdict:</strong> Escaping into the past is a temporary relief but a permanent illusion. While Charley found peace in his mind, his physical disappearance suggests that total escapism is a form of surrender rather than a solution.</p>
-            </div>
-        </section>
+    <main id="content-area">
+        <section id="psych-box" class="content-box hidden"></section>
+        <section id="stress-box" class="content-box hidden"></section>
+        <section id="history-box" class="content-box hidden"></section>
+        <section id="verdict-box" class="content-box hidden"></section>
     </main>
+
+    <script>
+        // Fetch the research data from our Flask route
+        fetch('/get_research')
+            .then(response => response.json())
+            .then(data => {
+                // 1. Populate Psychology
+                document.getElementById('psych-box').innerHTML = `
+                    <h2>${data.psychology.title}</h2>
+                    <p>${data.psychology.content}</p>
+                `;
+
+                // 2. Populate Comparison
+                document.getElementById('stress-box').innerHTML = `
+                    <h2>${data.comparison.title}</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>The 1890s</h3>
+                            <ul>${data.comparison.vintage.map(item => `<li>${item}</li>`).join('')}</ul>
+                        </div>
+                        <div class="card">
+                            <h3>Modern Day</h3>
+                            <ul>${data.comparison.modern.map(item => `<li>${item}</li>`).join('')}</ul>
+                        </div>
+                    </div>
+                `;
+
+                // 3. Populate History
+                document.getElementById('history-box').innerHTML = `
+                    <h2>${data.history.title}</h2>
+                    <p>${data.history.content}</p>
+                `;
+
+                // 4. Populate Verdict
+                document.getElementById('verdict-box').innerHTML = `
+                    <div class="verdict-banner">
+                        <h2>${data.verdict.title}</h2>
+                        <p>${data.verdict.content}</p>
+                    </div>
+                `;
+
+                // Trigger the smooth animations
+                const boxes = document.querySelectorAll('.content-box');
+                boxes.forEach((box, index) => {
+                    setTimeout(() => {
+                        box.classList.remove('hidden');
+                        box.classList.add('visible');
+                    }, index * 300); // Staggered delay
+                });
+            });
+    </script>
 </body>
 </html>

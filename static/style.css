@@ -1,46 +1,74 @@
+:root {
+    --primary: #2c3e50;
+    --accent: #c0392b;
+    --bg: #fdfaf5;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    background-color: #f4f1ea; /* Paper-like color */
+    background-color: var(--bg);
     color: #333;
+    line-height: 1.7;
 }
 
 .hero {
-    background: #2c3e50;
+    background: var(--primary);
     color: white;
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
 .content-box {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.grid-container {
-    display: flex;
-    gap: 20px;
+/* Animations */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-.era-card {
-    flex: 1;
-    background: #eee;
-    padding: 15px;
-    border-radius: 5px;
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 h2 {
-    color: #c0392b; /* Red accent for the Third Level feel */
-    border-bottom: 2px solid #c0392b;
+    color: var(--accent);
+    border-left: 5px solid var(--accent);
+    padding-left: 15px;
+    margin-bottom: 20px;
 }
 
-.final-verdict {
-    background: #fff3cd;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.card {
+    background: #f8f9fa;
     padding: 20px;
-    border-left: 5px solid #ffc107;
+    border-radius: 10px;
+    border-top: 3px solid var(--primary);
+}
+
+.verdict-banner {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+ul {
+    padding-left: 20px;
 }

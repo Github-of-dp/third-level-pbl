@@ -1,0 +1,27 @@
+{
+    "psychology": {
+        "title": "The Psychology of Escapism",
+        "content": "Escapism is defined as the mental diversion from the perceived unpleasantness or boredom of daily life. In psychology, it is often viewed as a coping mechanism. While 'restorative' escapism allows for stress recovery, 'avoidant' escapism—as seen in Charley's journey to the Third Level—can lead to a detachment from reality."
+    },
+    "comparison": {
+        "title": "The Stress Gap: 1890s vs. 2026",
+        "vintage": [
+            "Rapid Industrialization pressures",
+            "Post-Civil War social recovery",
+            "Urban overcrowding and lack of sanitation"
+        ],
+        "modern": [
+            "Digital burnout and information overload",
+            "Global economic and environmental anxiety",
+            "The 'Always-On' culture of social media"
+        ]
+    },
+    "history": {
+        "title": "Grand Central: The Gateway",
+        "content": "Grand Central Terminal is historically significant as the heart of New York's transit. Its labyrinthine architecture represents a 'tree' with roots spreading into the psyche of the city, making it the perfect symbolic setting for a portal to the past."
+    },
+    "verdict": {
+        "title": "The Verdict: Solution or Illusion?",
+        "content": "Ultimately, the Third Level is a beautiful illusion. While it offers temporary mental relief, it does not solve the underlying causes of stress. True stability comes from engaging with the present, rather than retreating into a romanticized past."
+    }
+}
