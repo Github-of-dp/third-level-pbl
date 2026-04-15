@@ -1,27 +1,39 @@
 {
     "psychology": {
         "title": "The Psychology of Escapism",
-        "content": "Escapism is defined as the mental diversion from the perceived unpleasantness or boredom of daily life. In psychology, it is often viewed as a coping mechanism. While 'restorative' escapism allows for stress recovery, 'avoidant' escapism—as seen in Charley's journey to the Third Level—can lead to a detachment from reality."
+        "description": "Understanding the mental flight from reality.",
+        "details": [
+            "<strong>Definition:</strong> Escapism is a mental detour used to manage cognitive load and emotional distress. In psychology, it is categorized under 'Avoidant Coping Mechanisms'.",
+            "<strong>The Dual-Process Model:</strong> Psychologists distinguish between 'Self-Expansion' (healthy hobbies) and 'Self-Suppression' (denial of reality).",
+            "<strong>The Neurochemistry:</strong> Constant stress triggers cortisol; escapism (like Charley’s obsession) is an attempt to trigger dopamine through nostalgia, creating a mental 'safe haven'."
+        ]
     },
     "comparison": {
-        "title": "The Stress Gap: 1890s vs. 2026",
+        "title": "The Stress Evolution",
+        "description": "How 1894 and 2026 differ in their pressure points.",
         "vintage": [
-            "Rapid Industrialization pressures",
-            "Post-Civil War social recovery",
-            "Urban overcrowding and lack of sanitation"
+            "<strong>Neurasthenia:</strong> A 19th-century term for 'nerve exhaustion' caused by the newly invented telegraph and steam engine.",
+            "<strong>Post-War Recovery:</strong> Lingering social anxiety from the Civil War era.",
+            "<strong>Industrial Rigidity:</strong> Extreme physical labor and lack of labor rights."
         ],
         "modern": [
-            "Digital burnout and information overload",
-            "Global economic and environmental anxiety",
-            "The 'Always-On' culture of social media"
+            "<strong>Digital Burnout:</strong> The 'Always-On' culture where work follows you home via smartphones.",
+            "<strong>Choice Paralysis:</strong> The modern stress of infinite options leading to decision fatigue.",
+            "<strong>Environmental Anxiety:</strong> A global-scale stressor that didn't exist in the 1890s."
         ]
     },
     "history": {
-        "title": "Grand Central: The Gateway",
-        "content": "Grand Central Terminal is historically significant as the heart of New York's transit. Its labyrinthine architecture represents a 'tree' with roots spreading into the psyche of the city, making it the perfect symbolic setting for a portal to the past."
+        "title": "Grand Central Symbolism",
+        "description": "The architecture of a transition.",
+        "details": [
+            "<strong>The Labyrinth:</strong> Built in its current form in 1913, the station was designed to handle massive flows of people, creating a natural environment for someone to get 'lost' in.",
+            "<strong>The Roots of the City:</strong> The story describes the station as a tree pushing out tunnels like roots. This symbolizes how the subconscious mind constantly seeks new exits when the surface world becomes unbearable.",
+            "<strong>Temporal Anchor:</strong> Grand Central is one of the few places in NYC that looks almost exactly as it did 100 years ago, making it a believable 'portal' for Charley."
+        ]
     },
     "verdict": {
-        "title": "The Verdict: Solution or Illusion?",
-        "content": "Ultimately, the Third Level is a beautiful illusion. While it offers temporary mental relief, it does not solve the underlying causes of stress. True stability comes from engaging with the present, rather than retreating into a romanticized past."
+        "title": "Final Analysis",
+        "description": "Is the Third Level a solution?",
+        "content": "Charley's Third Level is a <strong>Pathological Illusion</strong>. While it provides immediate relief from the 'war and worry' of the modern world, it represents a failure to adapt. In Grade 12 terms: The story warns us that while nostalgia is a pleasant place to visit, living there is a form of mental surrender. True resilience is found in the present."
     }
 }

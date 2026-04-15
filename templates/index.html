@@ -3,72 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Third Level | Research Project</title>
+    <title>The Third Level | Interactive Research</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header class="hero">
-        <h1 class="reveal-text">The Third Level</h1>
-        <p>A Grade 12 Research Project on Escapism & Stress</p>
-    </header>
+    <div class="glass-container">
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="showTab('psychology')">Psychology</button>
+            <button class="tab-btn" onclick="showTab('comparison')">Stress Gap</button>
+            <button class="tab-btn" onclick="showTab('history')">Grand Central</button>
+            <button class="tab-btn" onclick="showTab('verdict')">The Verdict</button>
+        </nav>
 
-    <main id="content-area">
-        <section id="psych-box" class="content-box hidden"></section>
-        <section id="stress-box" class="content-box hidden"></section>
-        <section id="history-box" class="content-box hidden"></section>
-        <section id="verdict-box" class="content-box hidden"></section>
-    </main>
+        <header id="tab-header">
+            <h1 id="main-title">Loading...</h1>
+            <p id="main-desc"></p>
+        </header>
+
+        <div id="content-display" class="fade-in">
+            </div>
+    </div>
 
     <script>
-        // Fetch the research data from our Flask route
+        let researchData = {};
+
         fetch('/get_research')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                // 1. Populate Psychology
-                document.getElementById('psych-box').innerHTML = `
-                    <h2>${data.psychology.title}</h2>
-                    <p>${data.psychology.content}</p>
-                `;
-
-                // 2. Populate Comparison
-                document.getElementById('stress-box').innerHTML = `
-                    <h2>${data.comparison.title}</h2>
-                    <div class="grid">
-                        <div class="card">
-                            <h3>The 1890s</h3>
-                            <ul>${data.comparison.vintage.map(item => `<li>${item}</li>`).join('')}</ul>
-                        </div>
-                        <div class="card">
-                            <h3>Modern Day</h3>
-                            <ul>${data.comparison.modern.map(item => `<li>${item}</li>`).join('')}</ul>
-                        </div>
-                    </div>
-                `;
-
-                // 3. Populate History
-                document.getElementById('history-box').innerHTML = `
-                    <h2>${data.history.title}</h2>
-                    <p>${data.history.content}</p>
-                `;
-
-                // 4. Populate Verdict
-                document.getElementById('verdict-box').innerHTML = `
-                    <div class="verdict-banner">
-                        <h2>${data.verdict.title}</h2>
-                        <p>${data.verdict.content}</p>
-                    </div>
-                `;
-
-                // Trigger the smooth animations
-                const boxes = document.querySelectorAll('.content-box');
-                boxes.forEach((box, index) => {
-                    setTimeout(() => {
-                        box.classList.remove('hidden');
-                        box.classList.add('visible');
-                    }, index * 300); // Staggered delay
-                });
+                researchData = data;
+                showTab('psychology'); // Initial Load
             });
+
+        function showTab(tabName) {
+            const data = researchData[tabName];
+            const display = document.getElementById('content-display');
+            const headerTitle = document.getElementById('main-title');
+            const headerDesc = document.getElementById('main-desc');
+
+            // Update Tab Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(tabName.substring(0,3)));
+            });
+
+            // Trigger smooth fade out
+            display.style.opacity = 0;
+
+            setTimeout(() => {
+                headerTitle.innerText = data.title;
+                headerDesc.innerText = data.description || "";
+
+                if(tabName === 'comparison') {
+                    display.innerHTML = `
+                        <div class="comparison-grid">
+                            <div class="glass-card"><h3>1890s</h3><ul>${data.vintage.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                            <div class="glass-card"><h3>2026</h3><ul>${data.modern.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                        </div>`;
+                } else if(data.details) {
+                    display.innerHTML = `<ul class="detail-list">${data.details.map(i => `<li>${i}</li>`).join('')}</ul>`;
+                } else {
+                    display.innerHTML = `<div class="glass-card verdict">${data.content}</div>`;
+                }
+                
+                display.style.opacity = 1;
+            }, 300);
+        }
     </script>
 </body>
 </html>
