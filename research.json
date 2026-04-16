@@ -1,46 +1,62 @@
 {
     "psychology": {
-        "title": "Psychological Framework",
-        "description": "The Mechanics of the Escapist Mind",
-        "content": [
+        "title": "I. PSYCHOLOGICAL ARCHITECTURE",
+        "sections": [
             {
-                "label": "Avoidance Coping",
-                "text": "Escapism acts as a 'buffer' against reality. In psychology, it is often a response to cognitive dissonance—the mental discomfort of living in a reality that doesn't match one's desires."
+                "subtitle": "The Default Mode Network (DMN)",
+                "content": "Neurologically, escapism is tied to the DMN—the brain system active when we are not focused on the outside world. Chronic 'Metabolic Stress' caused by modern urban noise forces a decoupling from sensory reality. This isn't just a whim; it is a survival mechanism against sensory overload. The brain attempts to recalibrate by retreating into internally generated imagery, often rooted in episodic memory or idealized historical periods."
             },
             {
-                "label": "The Nostalgia Loop",
-                "text": "The brain's Hippocampus often filters out negative historical data, leaving only 'Rosy Retrospection.' This explains why Charley views the 1890s as peaceful despite its actual hardships."
+                "subtitle": "Maladaptive Daydreaming",
+                "content": "Charley exhibits symptoms of Maladaptive Daydreaming, a condition where intense fantasy replaces human interaction. From a psychoanalytic perspective, the 'Third Level' is the Manifest Content of a subconscious desire to return to the 'Pre-Oedipal' safety of his grandfather’s era—a time perceived as being without the 'War and Worry' of the nuclear age. This is often triggered by an inability to find agency in the current social structure."
             },
             {
-                "label": "Neuro-Response",
-                "text": "Chronic stress releases Cortisol. Escapist activities trigger the reward system to release Dopamine, creating a temporary 'level' of mental safety."
+                "subtitle": "The Simulacrum of Nostalgia",
+                "content": "Sociologist Fredric Jameson argues that nostalgia is a symptom of a society that has lost its capacity to imagine a future. By longing for 1894, Charley isn't seeking history; he is seeking a 'Simulacrum'—a fake, polished version of the past that never truly existed. This 'Hyper-reality' is more comforting than the truth because it is static and predictable, unlike the volatile nature of the present."
+            },
+            {
+                "subtitle": "Dissociative Fugue States",
+                "content": "Clinical psychology suggests that Charley's experience mirrors a 'fugue state,' where an individual loses their identity and 'travels' to a new location to escape trauma. The Third Level acts as the physical manifestation of this mental break, providing a geography to his internal desire for disappearance."
             }
         ]
     },
     "comparison": {
-        "title": "Temporal Conflict",
-        "description": "Comparative Stress Analysis: 1894 vs 2026",
-        "vintage": [
-            "Neurasthenia (The 'Nerve' Epidemic)",
-            "Post-Civil War Societal Trauma",
-            "Physical Industrial Exhaustion",
-            "Lack of Labor Rights & Security"
-        ],
+        "title": "II. THE TEMPORAL STRESS GAP",
         "modern": [
-            "Digital Burnout & Screen Fatigue",
-            "Algorithmic Competition Anxiety",
-            "Global Environmental Stress",
-            "24/7 Information Overload"
+            {
+                "topic": "The Great Acceleration",
+                "detail": "Since the year 2000, human data processing has increased exponentially. We face 'Technostress'—the physiological inability to cope with new computer technologies. The constant ping of notifications keeps the amygdala in a state of 'High Alert', leading to chronic fatigue."
+            },
+            {
+                "topic": "Algorithmic Anxiety",
+                "detail": "Unlike the 1890s, our stress is often invisible and simulated. We worry about digital reputations, algorithmic trends, and global events we cannot control, leading to a constant state of 'Low-Grade Paranoia' and 'FOMO' (Fear of Missing Out)."
+            },
+            {
+                "topic": "Decision Fatigue",
+                "detail": "The modern world offers 'Choice Paralysis'. In the 1894 era, paths were often set by birth or location; today, the burden of infinite choice is a primary stressor, leading many to long for the 'set tracks' of a simpler time."
+            }
+        ],
+        "vintage": [
+            {
+                "topic": "Neurasthenia (American Nervousness)",
+                "detail": "Dr. George Beard’s 19th-century theory that the 'telegraph and the press' were destroying the human nervous system. Even then, people thought life was moving too fast, proving that escapism is a recurring historical cycle."
+            },
+            {
+                "topic": "The Panic of 1893",
+                "detail": "While Charley remembers peace, 1894 was a year of massive economic depression and civil unrest. His memory exhibits 'Historical Blindness,' a psychological trait where we filter out the suffering of the past to make it a viable escape destination."
+            },
+            {
+                "topic": "Physical Survivalism",
+                "detail": "Stress was grounded in the body—tuberculosis, lack of antibiotics, and 12-hour manual labor shifts. The 1890s were 'quiet' only for the wealthy elite; for the working class, life was a brutal struggle for survival."
+            }
         ]
     },
     "history": {
-        "title": "Grand Central Terminal",
-        "description": "The Architectural Portal",
-        "details": "Grand Central is a 'liminal space'—a gateway between states of being. Its 1913 reconstruction created a labyrinthine depth that Jack Finney uses as a metaphor for the human subconscious. Just as the station has hidden tracks, the mind has hidden 'levels' of memory."
+        "title": "III. THE GRAND CENTRAL DOSSIER",
+        "content": "Grand Central Terminal is a 'liminal space'—a place of transition. The Zodiac ceiling is painted backward, symbolizing looking down from a 'divine' perspective. Historically, the station has the deepest basement in NYC (M42), which was a secret during WWII. Finney uses this literal depth to mirror the depth of the human psyche. The 'tree' metaphor (tunnels as roots) suggests that the city is an organic, growing entity that can produce glitches in time. It is a site of high emotional charge, acting as a 'temporal thinning' point."
     },
     "verdict": {
-        "title": "The Final Verdict",
-        "description": "Solution or Fatal Illusion?",
-        "analysis": "The Third Level is ultimately a <strong>Failure of Adaptation</strong>. While the 1890s appear calm, retreating into them is a form of 'Passive Regression.' A true solution requires <strong>Active Resilience</strong>—confronting the stressors of 2026 rather than hiding in a romanticized, non-existent past."
+        "title": "IV. THE FINAL SYNTHESIS",
+        "content": "The Third Level is a 'Psychological Mirage'. In a Grade 12 context, the narrative warns that mental health isn't about finding a hiding spot—it's about building 'Active Resilience'. To accept the 1894 version of life as a 'solution' is a form of 'Passive Regression'. True adaptation requires the courage to face the 'Grand Central' of our own era without looking for a hidden exit. Escapism is a necessary vacation, but a dangerous permanent residence."
     }
 }

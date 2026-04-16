@@ -3,90 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Third Level | Dashboard</title>
+    <title>THE THIRD LEVEL | RESEARCH HUB</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<div class="app-container">
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <i data-lucide="layers"></i>
-            <span>LEVEL.03</span>
-        </div>
-        <nav class="menu">
-            <div class="menu-item active" onclick="loadTab('psychology', this)">
-                <i data-lucide="brain"></i> <span>Psychology</span>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="compass"></i>
+                <span>PROJECT.LEVEL</span>
             </div>
-            <div class="menu-item" onclick="loadTab('comparison', this)">
-                <i data-lucide="git-compare"></i> <span>Stress Gap</span>
-            </div>
-            <div class="menu-item" onclick="loadTab('history', this)">
-                <i data-lucide="map"></i> <span>The Hub</span>
-            </div>
-            <div class="menu-item" onclick="loadTab('verdict', this)">
-                <i data-lucide="check-circle"></i> <span>The Verdict</span>
-            </div>
-        </nav>
-    </aside>
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="switchView('psychology', this)">
+                    <i data-lucide="brain-circuit"></i>
+                    <span>Psychology</span>
+                </li>
+                <li class="nav-item" onclick="switchView('comparison', this)">
+                    <i data-lucide="arrow-left-right"></i>
+                    <span>The Stress Gap</span>
+                </li>
+                <li class="nav-item" onclick="switchView('history', this)">
+                    <i data-lucide="landmark"></i>
+                    <span>Grand Central</span>
+                </li>
+                <li class="nav-item" onclick="switchView('verdict', this)">
+                    <li class="nav-item" onclick="switchView('verdict', this)">
+                    <i data-lucide="terminal"></i>
+                    <span>Final Verdict</span>
+                </li>
+            </ul>
+        </aside>
 
-    <main class="content">
-        <header class="content-header">
-            <h1 id="view-title">Loading...</h1>
-            <p id="view-desc"></p>
-        </header>
+        <main class="content-area" id="main-view">
+            <div id="content-container">
+                </div>
+        </main>
+    </div>
 
-        <div id="dynamic-content" class="animate__animated">
-            </div>
-    </main>
-</div>
+    <script>
+        let db = {};
 
-<script>
-    let rData = {};
-
-    fetch('/get_research')
-        .then(res => res.json())
-        .then(data => {
-            rData = data;
-            loadTab('psychology', document.querySelector('.menu-item'));
-            lucide.createIcons();
-        });
-
-    function loadTab(key, el) {
-        const data = rData[key];
-        const container = document.getElementById('dynamic-content');
-        
-        // UI Updates
-        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById('view-title').innerText = data.title;
-        document.getElementById('view-desc').innerText = data.description;
-
-        // Animation
-        container.classList.remove('animate__fadeInUp');
-        void container.offsetWidth; // Trigger reflow
-        container.classList.add('animate__fadeInUp');
-
-        if(key === 'psychology') {
-            container.innerHTML = `<div class="card-grid">${data.content.map(c => `
-                <div class="card">
-                    <h3>${c.label}</h3>
-                    <p>${c.text}</p>
-                </div>`).join('')}</div>`;
-        } else if(key === 'comparison') {
-            container.innerHTML = `
-                <div class="comp-wrapper">
-                    <div class="comp-card"><h4>1890s</h4><ul>${data.vintage.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                    <div class="comp-card highlight"><h4>2026</h4><ul>${data.modern.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                </div>`;
-        } else if(key === 'history') {
-            container.innerHTML = `<div class="card long-card"><p>${data.details}</p></div>`;
-        } else {
-            container.innerHTML = `<div class="card verdict-card"><p>${data.analysis}</p></div>`;
+        // 1. DATA INITIALIZATION
+        async function init() {
+            try {
+                const response = await fetch('/get_research');
+                db = await response.json();
+                renderPsychology(); // Default View
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Critical System Error: ", err);
+            }
         }
-    }
-</script>
+
+        // 2. VIEW SWITCHER LOGIC
+        function switchView(view, element) {
+            // Update Navigation UI
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+
+            // Render selected view
+            const container = document.getElementById('content-container');
+            container.innerHTML = ""; // Clear current
+            
+            if (view === 'psychology') renderPsychology();
+            if (view === 'comparison') renderComparison();
+            if (view === 'history') renderHistory();
+            if (view === 'verdict') renderVerdict();
+            
+            lucide.createIcons(); // Re-render icons
+        }
+
+        // 3. RENDER FUNCTIONS (THE "MEAT" OF THE CODE)
+        function renderPsychology() {
+            const data = db.psychology;
+            const html = `
+                <div class="animate-in">
+                    <div class="section-header">
+                        <h1>${data.title}</h1>
+                        <p>${data.description}</p>
+                    </div>
+                    <div class="grid-container">
+                        ${data.sections.map(s => `
+                            <div class="glass-card">
+                                <h3>${s.subtitle}</h3>
+                                <p>${s.content}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-container').innerHTML = html;
+        }
+
+        function renderComparison() {
+            const data = db.comparison;
+            const html = `
+                <div class="animate-in">
+                    <div class="section-header">
+                        <h1>${data.title}</h1>
+                        <p>${data.description}</p>
+                    </div>
+                    <div class="comp-split">
+                        <div class="era-column">
+                            <h2 style="margin-bottom:20px; color:var(--accent)">MODERN ERA (2026)</h2>
+                            ${data.modern.map(item => `
+                                <div class="era-item">
+                                    <h4>${item.topic}</h4>
+                                    <p>${item.detail}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="era-column">
+                            <h2 style="margin-bottom:20px; color:#f87171">VINTAGE ERA (1894)</h2>
+                            ${data.vintage.map(item => `
+                                <div class="era-item">
+                                    <h4>${item.topic}</h4>
+                                    <p>${item.detail}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-container').innerHTML = html;
+        }
+
+        function renderHistory() {
+            const data = db.history;
+            const html = `
+                <div class="animate-in">
+                    <div class="section-header">
+                        <h1>${data.title}</h1>
+                        <p>${data.description}</p>
+                    </div>
+                    <div class="glass-card" style="max-width:800px">
+                        <p style="font-size:1.2rem; line-height:2">${data.content}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-container').innerHTML = html;
+        }
+
+        function renderVerdict() {
+            const data = db.verdict;
+            const html = `
+                <div class="animate-in">
+                    <div class="section-header">
+                        <h1>${data.title}</h1>
+                        <p>${data.description}</p>
+                    </div>
+                    <div class="glass-card" style="border-color:var(--accent); background:rgba(56, 189, 248, 0.05)">
+                        <p style="font-size:1.4rem; font-weight:300">${data.content}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-container').innerHTML = html;
+        }
+
+        // Run Init
+        window.onload = init;
+    </script>
 </body>
 </html>
