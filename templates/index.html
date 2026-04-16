@@ -3,60 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Third Level | immersive</title>
+    <title>THE THIRD LEVEL | PROJECT</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-    <div class="noise"></div>
-    
-    <nav class="nav-bar">
-        <div class="nav-links">
-            <span onclick="goToSection(0)" class="nav-item active">I. PSYCHE</span>
-            <span onclick="goToSection(1)" class="nav-item">II. STRESS</span>
-            <span onclick="goToSection(2)" class="nav-item">III. PORTAL</span>
-            <span onclick="goToSection(3)" class="nav-item">IV. VERDICT</span>
-        </div>
-        <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="grain"></div>
+
+    <nav class="side-nav">
+        <div class="nav-item" onclick="scrollLevel(0)">I. PSYCHE</div>
+        <div class="nav-item" onclick="scrollLevel(1)">II. STRESS</div>
+        <div class="nav-item" onclick="scrollLevel(2)">III. PORTAL</div>
+        <div class="nav-item" onclick="scrollLevel(3)">IV. VERDICT</div>
     </nav>
 
-    <div class="main-wrapper">
-        <section class="slide" id="slide-0">
-            <div class="content-inner">
-                <h1 class="glitch" id="p-title"></h1>
-                <h3 id="p-sub"></h3>
-                <p id="p-content"></p>
+    <div class="level-wrapper">
+        <section class="level" id="level-0">
+            <div class="container">
+                <h1 class="glitch-text" id="psych-title"></h1>
+                <h3 id="psych-sub"></h3>
+                <p id="psych-content"></p>
+                <div id="psych-list" class="points-grid"></div>
             </div>
         </section>
 
-        <section class="slide" id="slide-1">
-            <div class="content-inner">
-                <h1 id="c-title"></h1>
-                <div class="comp-wrapper">
-                    <div class="comp-card">
-                        <h4 id="c-left-t"></h4>
-                        <p id="c-left-p"></p>
+        <section class="level" id="level-1">
+            <div class="container">
+                <h1 id="comp-title"></h1>
+                <div class="comparison-flex">
+                    <div class="comp-box">
+                        <h3>1894</h3>
+                        <ul id="vintage-list"></ul>
                     </div>
-                    <div class="divider"></div>
-                    <div class="comp-card">
-                        <h4 id="c-right-t"></h4>
-                        <p id="c-right-p"></p>
+                    <div class="comp-box">
+                        <h3>2026</h3>
+                        <ul id="modern-list"></ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="slide" id="slide-2">
-            <div class="content-inner">
-                <h1 id="h-title"></h1>
-                <h3 id="h-sub"></h3>
-                <p id="h-content"></p>
+        <section class="level" id="level-2">
+            <div class="container">
+                <h1 id="hist-title"></h1>
+                <h3 id="hist-sub"></h3>
+                <p id="hist-content" class="large-text"></p>
             </div>
         </section>
 
-        <section class="slide" id="slide-3">
-            <div class="content-inner">
-                <div class="verdict-glow">
+        <section class="level" id="level-3">
+            <div class="container">
+                <div class="final-card">
                     <h1 id="v-title"></h1>
                     <p id="v-content"></p>
                 </div>
@@ -65,53 +62,37 @@
     </div>
 
     <script>
-        let currentIdx = 0;
-        const totalSlides = 4;
-
+        let data = {};
         fetch('/get_research')
             .then(res => res.json())
-            .then(data => {
-                // Populate Data
-                document.getElementById('p-title').innerText = data.psychology.title;
-                document.getElementById('p-sub').innerText = data.psychology.subtitle;
-                document.getElementById('p-content').innerText = data.psychology.content;
-
-                document.getElementById('c-title').innerText = data.comparison.title;
-                document.getElementById('c-left-t').innerText = data.comparison.left_title;
-                document.getElementById('c-left-p').innerText = data.comparison.left_text;
-                document.getElementById('c-right-t').innerText = data.comparison.right_title;
-                document.getElementById('c-right-p').innerText = data.comparison.right_text;
-
-                document.getElementById('h-title').innerText = data.history.title;
-                document.getElementById('h-sub').innerText = data.history.subtitle;
-                document.getElementById('h-content').innerText = data.history.content;
-
-                document.getElementById('v-title').innerText = data.verdict.title;
-                document.getElementById('v-content').innerText = data.verdict.content;
-                
-                animateIn(0);
+            .then(resData => {
+                data = resData;
+                populate();
             });
 
-        function goToSection(idx) {
-            gsap.to(".main-wrapper", {
-                x: -(idx * 100) + "vw",
-                duration: 1.2,
-                ease: "expo.inOut"
-            });
-            
-            document.querySelectorAll('.nav-item').forEach((n, i) => {
-                n.classList.toggle('active', i === idx);
-            });
-            
-            gsap.to(".progress-bar", { width: ((idx + 1) / totalSlides) * 100 + "%" });
-            animateIn(idx);
+        function populate() {
+            document.getElementById('psych-title').innerText = data.psychology.title;
+            document.getElementById('psych-sub').innerText = data.psychology.subtitle;
+            document.getElementById('psych-content').innerText = data.psychology.content;
+            document.getElementById('psych-list').innerHTML = data.psychology.points.map(p => `<div class='point'>${p}</div>`).join('');
+
+            document.getElementById('comp-title').innerText = data.comparison.title;
+            document.getElementById('vintage-list').innerHTML = data.comparison.vintage_stress.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('modern-list').innerHTML = data.comparison.modern_stress.map(s => `<li>${s}</li>`).join('');
+
+            document.getElementById('hist-title').innerText = data.history.title;
+            document.getElementById('hist-sub').innerText = data.history.subtitle;
+            document.getElementById('hist-content').innerText = data.history.content;
+
+            document.getElementById('v-title').innerText = data.verdict.title;
+            document.getElementById('v-content').innerText = data.verdict.content;
         }
 
-        function animateIn(idx) {
-            gsap.fromTo(`#slide-${idx} .content-inner`, 
-                { opacity: 0, y: 50 }, 
-                { opacity: 1, y: 0, duration: 1, delay: 0.5 }
-            );
+        function scrollLevel(idx) {
+            gsap.to(".level-wrapper", { x: -(idx * 100) + "vw", duration: 1.5, ease: "power4.inOut" });
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.style.opacity = (i === idx) ? "1" : "0.3";
+            });
         }
     </script>
 </body>

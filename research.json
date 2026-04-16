@@ -2,24 +2,35 @@
     "psychology": {
         "title": "Neurological Escapism",
         "subtitle": "The Cognitive Flight Mechanism",
-        "content": "Escapism isn't just daydreaming; it's a 'dissociative state' triggered by the Prefrontal Cortex to mitigate chronic stress. While restorative escapism (low-dose) builds resilience, avoidant escapism (high-dose)—like Charley's obsession—leads to 'Maladaptive Daydreaming.' This is a neurological attempt to replace cortisol-inducing reality with dopamine-rich nostalgia."
+        "content": "Escapism in psychology is defined as a 'dissociative state' used to mitigate chronic stress. While 'restorative escapism' (like reading) builds resilience, 'avoidant escapism'—like Charley’s obsession—leads to Maladaptive Daydreaming. This is a neurological attempt to bypass the Prefrontal Cortex's stress signals by flooding the brain with dopamine-rich nostalgia.",
+        "points": [
+            "<strong>Avoidance Coping:</strong> Denying reality to reduce immediate anxiety.",
+            "<strong>The Nostalgia Filter:</strong> The brain's tendency to prune negative memories from the past.",
+            "<strong>Cognitive Dissonance:</strong> The tension Charley feels between his modern life and his 'truth'."
+        ]
     },
     "comparison": {
-        "title": "The Stress Dialectics",
+        "title": "Temporal Stress Analysis",
         "subtitle": "1894 Industrialism vs. 2026 Digitalism",
-        "left_title": "The Gilded Age (1894)",
-        "left_text": "Characterized by 'Neurasthenia' or nerve-shattering. The stress was physical and structural—rapid urbanization, the noise of steam, and the rigid social hierarchies of the post-Civil War era.",
-        "right_title": "The Silicon Age (2026)",
-        "right_text": "Characterized by 'Cognitive Overload.' The stress is invisible and omnipresent—algorithmic anxiety, the death of privacy, and the 'Infinite Scroll' which acts as a modern-day Third Level."
+        "modern_stress": [
+            "<strong>Algorithmic Anxiety:</strong> The pressure of constant social comparison.",
+            "<strong>Digital Burnout:</strong> The blurring of work-life boundaries due to 24/7 connectivity.",
+            "<strong>Eco-Anxiety:</strong> Modern global stressors that did not exist in the 19th century."
+        ],
+        "vintage_stress": [
+            "<strong>Neurasthenia:</strong> A 19th-century term for 'nerve exhaustion' from the new pace of steam power.",
+            "<strong>Post-War Trauma:</strong> Lingering societal scars from the Civil War era.",
+            "<strong>Industrial Rigidity:</strong> Extreme physical labor and total lack of workplace safety."
+        ]
     },
     "history": {
-        "title": "Architectural Liminality",
-        "subtitle": "Grand Central as a Temporal Portal",
+        "title": "Grand Central: The Labyrinth",
+        "subtitle": "Architectural Liminality",
         "content": "Grand Central Terminal is a 'liminal space'—a place of transition where time feels suspended. Built on a celestial map (the zodiac ceiling), it represents the human desire to connect the mundane (trains) with the eternal (stars). In Finney's narrative, the station is a biological entity, a 'tree' growing roots into the past to save those drowning in the present."
     },
     "verdict": {
-        "title": "The Final Verdict",
-        "subtitle": "Solution or Fatal Illusion?",
-        "content": "The Third Level is a fatal siren song. To accept the 1890s as a 'solution' is to ignore the progress of medicine, rights, and truth. Charley doesn't find a solution; he finds a hiding spot. True psychological health requires 'Active Adaptation'—changing the present—rather than 'Passive Regression' into a fictionalized past."
+        "title": "Solution or Fatal Illusion?",
+        "subtitle": "The Final Verdict",
+        "content": "The Third Level is a fatal siren song. To accept the 1890s as a 'solution' is to ignore the progress of medicine and human rights. Charley does not find a solution; he finds a hiding spot. True psychological health requires 'Active Adaptation'—changing the present—rather than 'Passive Regression' into a fictionalized past."
     }
 }
