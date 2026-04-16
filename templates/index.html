@@ -3,71 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Third Level | Interactive Research</title>
+    <title>The Third Level | immersive</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
+    <div class="noise"></div>
+    
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <span onclick="goToSection(0)" class="nav-item active">I. PSYCHE</span>
+            <span onclick="goToSection(1)" class="nav-item">II. STRESS</span>
+            <span onclick="goToSection(2)" class="nav-item">III. PORTAL</span>
+            <span onclick="goToSection(3)" class="nav-item">IV. VERDICT</span>
+        </div>
+        <div class="progress-container"><div class="progress-bar"></div></div>
+    </nav>
 
-    <div class="glass-container">
-        <nav class="tabs">
-            <button class="tab-btn active" onclick="showTab('psychology')">Psychology</button>
-            <button class="tab-btn" onclick="showTab('comparison')">Stress Gap</button>
-            <button class="tab-btn" onclick="showTab('history')">Grand Central</button>
-            <button class="tab-btn" onclick="showTab('verdict')">The Verdict</button>
-        </nav>
-
-        <header id="tab-header">
-            <h1 id="main-title">Loading...</h1>
-            <p id="main-desc"></p>
-        </header>
-
-        <div id="content-display" class="fade-in">
+    <div class="main-wrapper">
+        <section class="slide" id="slide-0">
+            <div class="content-inner">
+                <h1 class="glitch" id="p-title"></h1>
+                <h3 id="p-sub"></h3>
+                <p id="p-content"></p>
             </div>
+        </section>
+
+        <section class="slide" id="slide-1">
+            <div class="content-inner">
+                <h1 id="c-title"></h1>
+                <div class="comp-wrapper">
+                    <div class="comp-card">
+                        <h4 id="c-left-t"></h4>
+                        <p id="c-left-p"></p>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="comp-card">
+                        <h4 id="c-right-t"></h4>
+                        <p id="c-right-p"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="slide-2">
+            <div class="content-inner">
+                <h1 id="h-title"></h1>
+                <h3 id="h-sub"></h3>
+                <p id="h-content"></p>
+            </div>
+        </section>
+
+        <section class="slide" id="slide-3">
+            <div class="content-inner">
+                <div class="verdict-glow">
+                    <h1 id="v-title"></h1>
+                    <p id="v-content"></p>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
-        let researchData = {};
+        let currentIdx = 0;
+        const totalSlides = 4;
 
         fetch('/get_research')
             .then(res => res.json())
             .then(data => {
-                researchData = data;
-                showTab('psychology'); // Initial Load
-            });
+                // Populate Data
+                document.getElementById('p-title').innerText = data.psychology.title;
+                document.getElementById('p-sub').innerText = data.psychology.subtitle;
+                document.getElementById('p-content').innerText = data.psychology.content;
 
-        function showTab(tabName) {
-            const data = researchData[tabName];
-            const display = document.getElementById('content-display');
-            const headerTitle = document.getElementById('main-title');
-            const headerDesc = document.getElementById('main-desc');
+                document.getElementById('c-title').innerText = data.comparison.title;
+                document.getElementById('c-left-t').innerText = data.comparison.left_title;
+                document.getElementById('c-left-p').innerText = data.comparison.left_text;
+                document.getElementById('c-right-t').innerText = data.comparison.right_title;
+                document.getElementById('c-right-p').innerText = data.comparison.right_text;
 
-            // Update Tab Buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(tabName.substring(0,3)));
-            });
+                document.getElementById('h-title').innerText = data.history.title;
+                document.getElementById('h-sub').innerText = data.history.subtitle;
+                document.getElementById('h-content').innerText = data.history.content;
 
-            // Trigger smooth fade out
-            display.style.opacity = 0;
-
-            setTimeout(() => {
-                headerTitle.innerText = data.title;
-                headerDesc.innerText = data.description || "";
-
-                if(tabName === 'comparison') {
-                    display.innerHTML = `
-                        <div class="comparison-grid">
-                            <div class="glass-card"><h3>1890s</h3><ul>${data.vintage.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                            <div class="glass-card"><h3>2026</h3><ul>${data.modern.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                        </div>`;
-                } else if(data.details) {
-                    display.innerHTML = `<ul class="detail-list">${data.details.map(i => `<li>${i}</li>`).join('')}</ul>`;
-                } else {
-                    display.innerHTML = `<div class="glass-card verdict">${data.content}</div>`;
-                }
+                document.getElementById('v-title').innerText = data.verdict.title;
+                document.getElementById('v-content').innerText = data.verdict.content;
                 
-                display.style.opacity = 1;
-            }, 300);
+                animateIn(0);
+            });
+
+        function goToSection(idx) {
+            gsap.to(".main-wrapper", {
+                x: -(idx * 100) + "vw",
+                duration: 1.2,
+                ease: "expo.inOut"
+            });
+            
+            document.querySelectorAll('.nav-item').forEach((n, i) => {
+                n.classList.toggle('active', i === idx);
+            });
+            
+            gsap.to(".progress-bar", { width: ((idx + 1) / totalSlides) * 100 + "%" });
+            animateIn(idx);
+        }
+
+        function animateIn(idx) {
+            gsap.fromTo(`#slide-${idx} .content-inner`, 
+                { opacity: 0, y: 50 }, 
+                { opacity: 1, y: 0, duration: 1, delay: 0.5 }
+            );
         }
     </script>
 </body>
