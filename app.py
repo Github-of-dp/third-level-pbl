@@ -4,23 +4,14 @@ import os
 
 app = Flask(__name__)
 
-# Route to serve the SPA (Single Page Application)
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# API Route for the research database
 @app.route('/get_research')
 def get_research():
-    try:
-        # Construct path to JSON file
-        json_path = os.path.join(os.path.dirname(__file__), 'research.json')
-        with open(json_path, 'r') as file:
-            data = json.load(file)
-        return jsonify(data)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    with open('research.json', 'r') as f:
+        return jsonify(json.load(f))
 
-if __name__ == "__main__":
-    # In production (Render), debug should be False
+if __name__ == '__main__':
     app.run(debug=True)

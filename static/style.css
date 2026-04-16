@@ -1,178 +1,143 @@
-/* ROOT VARIABLES */
+/* VINTAGE VARIABLES */
 :root {
-    --bg-dark: #0f172a;
-    --sidebar-bg: #1e293b;
-    --accent: #38bdf8;
-    --text-main: #f1f5f9;
-    --text-dim: #94a3b8;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --border: rgba(255, 255, 255, 0.1);
-    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --brass: #b58921;
+    --dark-wood: #2a1b0a;
+    --paper: #f4ecd8;
+    --ink: #2c2c2c;
+    --border-ink: rgba(0,0,0,0.15);
 }
 
-/* BASE RESET */
-* {
+/* BACKGROUND & DESK */
+body.vintage-bg {
+    background: #1a0f05;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-main);
-    overflow: hidden;
     height: 100vh;
-}
-
-/* LAYOUT CONTAINER */
-.app-container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Georgia', serif;
+    overflow: hidden;
 }
 
-/* SIDEBAR */
-.sidebar {
+.desk-surface {
+    width: 95vw;
+    height: 90vh;
+    display: flex;
+    box-shadow: 0 0 100px rgba(0,0,0,0.8);
+    border: 15px solid #3d2b1f;
+    border-radius: 8px;
+    background: var(--dark-wood);
+}
+
+/* SIDEBAR: THE BRASS CONTROL */
+.brass-sidebar {
     width: 280px;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border);
+    background: #241a11;
+    border-right: 4px solid var(--brass);
     display: flex;
     flex-direction: column;
     padding: 40px 20px;
-    z-index: 10;
+    color: var(--brass);
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: var(--accent);
-    margin-bottom: 60px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.station-stamp {
+    text-align: center;
+    margin-bottom: 50px;
+    border: 2px solid var(--brass);
+    padding: 10px;
+    opacity: 0.8;
 }
 
-.nav-menu {
-    list-style: none;
-}
-
-.nav-item {
-    padding: 16px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 8px;
-    transition: var(--transition);
+.lever {
     display: flex;
     align-items: center;
     gap: 15px;
-    color: var(--text-dim);
-    font-weight: 500;
-}
-
-.nav-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-main);
-}
-
-.nav-item.active {
-    background: var(--accent);
-    color: var(--bg-dark);
-    box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
-}
-
-/* MAIN CONTENT */
-.content-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 60px;
-    position: relative;
-    scroll-behavior: smooth;
-}
-
-.section-header {
-    margin-bottom: 40px;
-    border-left: 4px solid var(--accent);
-    padding-left: 20px;
-}
-
-.section-header h1 {
-    font-size: 2.5rem;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.lever:hover {
+    background: rgba(181, 137, 33, 0.1);
+    border: 1px solid var(--brass);
+}
+
+.lever.active {
+    background: var(--brass);
+    color: var(--dark-wood);
+    box-shadow: 0 0 15px var(--brass);
+}
+
+/* PARCHMENT CONTENT AREA */
+.parchment-container {
+    flex: 1;
+    background-color: var(--paper);
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    padding: 60px;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+}
+
+.ink-content h1 {
+    font-family: 'Times New Roman', serif;
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 10px;
+    color: var(--ink);
     letter-spacing: 2px;
 }
 
-.section-header p {
-    color: var(--text-dim);
+.ink-block {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-ink);
+}
+
+.ink-block h2 {
+    color: #5d0000;
+    font-size: 1.4rem;
+}
+
+.ink-block p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+.marginalia {
+    display: block;
+    font-style: italic;
+    font-family: 'Brush Script MT', cursive; /* Handwritten feel */
+    color: #3b4d61;
     margin-top: 10px;
-}
-
-/* DATA CARDS */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 25px;
-}
-
-.glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    padding: 30px;
-    border-radius: 20px;
-    transition: var(--transition);
-}
-
-.glass-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-}
-
-.glass-card h3 {
-    color: var(--accent);
-    margin-bottom: 15px;
     font-size: 1.2rem;
 }
 
-.glass-card p {
-    line-height: 1.7;
-    color: var(--text-dim);
+/* TICKET STUB AT BOTTOM */
+.ticket-stub {
+    margin-top: auto;
+    border: 2px dashed var(--brass);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
 }
 
-/* COMPARISON SPECIFIC */
-.comp-split {
-    display: flex;
-    gap: 30px;
+/* SMOOTH FADE */
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
 }
 
-.era-column {
-    flex: 1;
-}
-
-.era-item {
-    background: rgba(255,255,255,0.03);
-    margin-bottom: 15px;
-    padding: 20px;
-    border-radius: 15px;
-}
-
-.era-item h4 {
-    margin-bottom: 8px;
-    color: #fff;
-}
-
-/* ANIMATIONS */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-in {
-    animation: fadeInUp 0.6s forwards;
-}
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--sidebar-bg); border-radius: 10px; }
+/* CUSTOM SCROLLBAR */
+.parchment-container::-webkit-scrollbar { width: 10px; }
+.parchment-container::-webkit-scrollbar-thumb { background: var(--brass); border-radius: 5px; }

@@ -3,167 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE THIRD LEVEL | RESEARCH HUB</title>
+    <title>The Third Level | Research Dossier</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="vintage-bg">
 
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="logo">
-                <i data-lucide="compass"></i>
-                <span>PROJECT.LEVEL</span>
+    <div class="desk-surface">
+        <aside class="brass-sidebar">
+            <div class="station-stamp">
+                <i data-lucide="train"></i>
+                <span>G.C.T 1894</span>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item active" onclick="switchView('psychology', this)">
-                    <i data-lucide="brain-circuit"></i>
-                    <span>Psychology</span>
-                </li>
-                <li class="nav-item" onclick="switchView('comparison', this)">
-                    <i data-lucide="arrow-left-right"></i>
-                    <span>The Stress Gap</span>
-                </li>
-                <li class="nav-item" onclick="switchView('history', this)">
-                    <i data-lucide="landmark"></i>
-                    <span>Grand Central</span>
-                </li>
-                <li class="nav-item" onclick="switchView('verdict', this)">
-                    <li class="nav-item" onclick="switchView('verdict', this)">
-                    <i data-lucide="terminal"></i>
-                    <span>Final Verdict</span>
-                </li>
-            </ul>
+            
+            <nav class="lever-menu">
+                <div class="lever active" onclick="loadPage('chapter_1_psychological_profiling', this)">
+                    <i data-lucide="brain"></i> <span>Psychology</span>
+                </div>
+                <div class="lever" onclick="loadPage('chapter_2_socio_economic_stress_gap', this)">
+                    <i data-lucide="clock"></i> <span>Stress Gap</span>
+                </div>
+                <div class="lever" onclick="loadPage('chapter_3_architectural_symbolism', this)">
+                    <i data-lucide="map"></i> <span>Architecture</span>
+                </div>
+                <div class="lever" onclick="loadPage('chapter_4_sam_weiner_dossier', this)">
+                    <i data-lucide="mail"></i> <span>Sam's File</span>
+                </div>
+                <div class="lever" onclick="loadPage('chapter_5_glossary_of_concepts', this)">
+                    <i data-lucide="book-open"></i> <span>Glossary</span>
+                </div>
+            </nav>
+            
+            <div class="ticket-stub">
+                <p>No. 1894-ADMIT</p>
+            </div>
         </aside>
 
-        <main class="content-area" id="main-view">
-            <div id="content-container">
+        <main class="parchment-container">
+            <div id="content-view" class="ink-content fade-in">
                 </div>
         </main>
     </div>
 
     <script>
-        let db = {};
+        let researchData = {};
 
-        // 1. DATA INITIALIZATION
-        async function init() {
-            try {
-                const response = await fetch('/get_research');
-                db = await response.json();
-                renderPsychology(); // Default View
+        // Fetch the 200+ line JSON
+        fetch('/get_research')
+            .then(res => res.json())
+            .then(data => {
+                researchData = data;
+                // Initial load
+                loadPage('chapter_1_psychological_profiling', document.querySelector('.lever'));
                 lucide.createIcons();
-            } catch (err) {
-                console.error("Critical System Error: ", err);
-            }
-        }
+            });
 
-        // 2. VIEW SWITCHER LOGIC
-        function switchView(view, element) {
-            // Update Navigation UI
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        function loadPage(key, element) {
+            const content = researchData[key];
+            const view = document.getElementById('content-view');
+            
+            // Toggle active state
+            document.querySelectorAll('.lever').forEach(l => l.classList.remove('active'));
             element.classList.add('active');
 
-            // Render selected view
-            const container = document.getElementById('content-container');
-            container.innerHTML = ""; // Clear current
+            // Reset animation
+            view.classList.remove('fade-in');
+            void view.offsetWidth; 
+            view.classList.add('fade-in');
+
+            // Render Logic for different chapters
+            let html = `<h1>${key.replace(/_/g, ' ').toUpperCase()}</h1>`;
             
-            if (view === 'psychology') renderPsychology();
-            if (view === 'comparison') renderComparison();
-            if (view === 'history') renderHistory();
-            if (view === 'verdict') renderVerdict();
-            
-            lucide.createIcons(); // Re-render icons
-        }
+            if (typeof content === 'object' && !Array.isArray(content)) {
+                for (let subKey in content) {
+                    let item = content[subKey];
+                    if (typeof item === 'object') {
+                        html += `
+                            <section class="ink-block">
+                                <h2>${item.label || item.concept || item.term || subKey.replace(/_/g, ' ')}</h2>
+                                <p>${item.depth_analysis || item.description || item.truth || item.initial_assessment || ''}</p>
+                                ${item.clinical_notes ? `<span class="marginalia">Note: ${item.clinical_notes}</span>` : ''}
+                            </section>`;
+                    }
+                }
+            } else if (Array.isArray(content)) {
+                html += content.map(i => `<div class="ink-block"><h3>${i.category || i.word}</h3><p>${i.description || i.definition}</p></div>`).join('');
+            }
 
-        // 3. RENDER FUNCTIONS (THE "MEAT" OF THE CODE)
-        function renderPsychology() {
-            const data = db.psychology;
-            const html = `
-                <div class="animate-in">
-                    <div class="section-header">
-                        <h1>${data.title}</h1>
-                        <p>${data.description}</p>
-                    </div>
-                    <div class="grid-container">
-                        ${data.sections.map(s => `
-                            <div class="glass-card">
-                                <h3>${s.subtitle}</h3>
-                                <p>${s.content}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('content-container').innerHTML = html;
+            view.innerHTML = html;
         }
-
-        function renderComparison() {
-            const data = db.comparison;
-            const html = `
-                <div class="animate-in">
-                    <div class="section-header">
-                        <h1>${data.title}</h1>
-                        <p>${data.description}</p>
-                    </div>
-                    <div class="comp-split">
-                        <div class="era-column">
-                            <h2 style="margin-bottom:20px; color:var(--accent)">MODERN ERA (2026)</h2>
-                            ${data.modern.map(item => `
-                                <div class="era-item">
-                                    <h4>${item.topic}</h4>
-                                    <p>${item.detail}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="era-column">
-                            <h2 style="margin-bottom:20px; color:#f87171">VINTAGE ERA (1894)</h2>
-                            ${data.vintage.map(item => `
-                                <div class="era-item">
-                                    <h4>${item.topic}</h4>
-                                    <p>${item.detail}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('content-container').innerHTML = html;
-        }
-
-        function renderHistory() {
-            const data = db.history;
-            const html = `
-                <div class="animate-in">
-                    <div class="section-header">
-                        <h1>${data.title}</h1>
-                        <p>${data.description}</p>
-                    </div>
-                    <div class="glass-card" style="max-width:800px">
-                        <p style="font-size:1.2rem; line-height:2">${data.content}</p>
-                    </div>
-                </div>
-            `;
-            document.getElementById('content-container').innerHTML = html;
-        }
-
-        function renderVerdict() {
-            const data = db.verdict;
-            const html = `
-                <div class="animate-in">
-                    <div class="section-header">
-                        <h1>${data.title}</h1>
-                        <p>${data.description}</p>
-                    </div>
-                    <div class="glass-card" style="border-color:var(--accent); background:rgba(56, 189, 248, 0.05)">
-                        <p style="font-size:1.4rem; font-weight:300">${data.content}</p>
-                    </div>
-                </div>
-            `;
-            document.getElementById('content-container').innerHTML = html;
-        }
-
-        // Run Init
-        window.onload = init;
     </script>
 </body>
 </html>
