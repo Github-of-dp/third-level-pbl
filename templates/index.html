@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Third Level | Research Dossier</title>
+    <title>THE THIRD LEVEL | RESEARCH DOSSIER</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="vintage-bg">
@@ -13,85 +14,100 @@
         <aside class="brass-sidebar">
             <div class="station-stamp">
                 <i data-lucide="train"></i>
-                <span>G.C.T 1894</span>
+                <div class="stamp-text">G.C.T 1894</div>
             </div>
             
             <nav class="lever-menu">
-                <div class="lever active" onclick="loadPage('chapter_1_psychological_profiling', this)">
-                    <i data-lucide="brain"></i> <span>Psychology</span>
+                <div class="lever active" onclick="loadChapter('chapter_1_psychological_profiling', this)">
+                    <i data-lucide="brain"></i> <span>I. PSYCHE</span>
                 </div>
-                <div class="lever" onclick="loadPage('chapter_2_socio_economic_stress_gap', this)">
-                    <i data-lucide="clock"></i> <span>Stress Gap</span>
+                <div class="lever" onclick="loadChapter('chapter_2_socio_economic_stress_gap', this)">
+                    <i data-lucide="clock"></i> <span>II. STRESS</span>
                 </div>
-                <div class="lever" onclick="loadPage('chapter_3_architectural_symbolism', this)">
-                    <i data-lucide="map"></i> <span>Architecture</span>
+                <div class="lever" onclick="loadChapter('chapter_3_architectural_symbolism', this)">
+                    <i data-lucide="map"></i> <span>III. ARCHITECTURE</span>
                 </div>
-                <div class="lever" onclick="loadPage('chapter_4_sam_weiner_dossier', this)">
-                    <i data-lucide="mail"></i> <span>Sam's File</span>
+                <div class="lever" onclick="loadChapter('chapter_4_sam_weiner_dossier', this)">
+                    <i data-lucide="mail"></i> <span>IV. SAM'S FILE</span>
                 </div>
-                <div class="lever" onclick="loadPage('chapter_5_glossary_of_concepts', this)">
-                    <i data-lucide="book-open"></i> <span>Glossary</span>
+                <div class="lever" onclick="loadChapter('chapter_5_glossary_of_concepts', this)">
+                    <i data-lucide="book-open"></i> <span>V. GLOSSARY</span>
                 </div>
             </nav>
             
             <div class="ticket-stub">
-                <p>No. 1894-ADMIT</p>
+                <p>LEVEL 03</p>
+                <small>VOID IF DETACHED</small>
             </div>
         </aside>
 
         <main class="parchment-container">
-            <div id="content-view" class="ink-content fade-in">
+            <div id="content-view" class="ink-content">
                 </div>
         </main>
     </div>
 
     <script>
-        let researchData = {};
+        let db = {};
 
-        // Fetch the 200+ line JSON
-        fetch('/get_research')
-            .then(res => res.json())
-            .then(data => {
-                researchData = data;
-                // Initial load
-                loadPage('chapter_1_psychological_profiling', document.querySelector('.lever'));
+        async function init() {
+            try {
+                const response = await fetch('/get_research');
+                db = await response.json();
+                loadChapter('chapter_1_psychological_profiling', document.querySelector('.lever'));
                 lucide.createIcons();
-            });
+            } catch (err) {
+                console.error("System Error: Check research.json structure", err);
+            }
+        }
 
-        function loadPage(key, element) {
-            const content = researchData[key];
+        function loadChapter(key, el) {
+            const chapter = db[key];
             const view = document.getElementById('content-view');
             
-            // Toggle active state
+            // UI Toggle
             document.querySelectorAll('.lever').forEach(l => l.classList.remove('active'));
-            element.classList.add('active');
+            el.classList.add('active');
 
-            // Reset animation
-            view.classList.remove('fade-in');
-            void view.offsetWidth; 
-            view.classList.add('fade-in');
-
-            // Render Logic for different chapters
-            let html = `<h1>${key.replace(/_/g, ' ').toUpperCase()}</h1>`;
+            // Fade Animation
+            view.style.opacity = 0;
             
-            if (typeof content === 'object' && !Array.isArray(content)) {
-                for (let subKey in content) {
-                    let item = content[subKey];
-                    if (typeof item === 'object') {
+            setTimeout(() => {
+                let html = `<h1 class="chapter-title">${key.replace(/_/g, ' ').toUpperCase()}</h1>`;
+                
+                // Flexible rendering for different JSON structures
+                for (let sectionKey in chapter) {
+                    const section = chapter[sectionKey];
+                    
+                    if (typeof section === 'object' && !Array.isArray(section)) {
                         html += `
-                            <section class="ink-block">
-                                <h2>${item.label || item.concept || item.term || subKey.replace(/_/g, ' ')}</h2>
-                                <p>${item.depth_analysis || item.description || item.truth || item.initial_assessment || ''}</p>
-                                ${item.clinical_notes ? `<span class="marginalia">Note: ${item.clinical_notes}</span>` : ''}
-                            </section>`;
+                            <div class="ink-block fade-in">
+                                <h2>${section.label || section.concept || section.term || sectionKey.replace(/_/g, ' ')}</h2>
+                                <p class="main-text">${section.depth_analysis || section.description || section.truth || section.initial_assessment || ''}</p>
+                                ${section.clinical_notes ? `<div class="marginalia">${section.clinical_notes}</div>` : ''}
+                                ${section.sensory_anchors ? renderAnchors(section.sensory_anchors) : ''}
+                            </div>`;
+                    } else if (Array.isArray(section)) {
+                        html += section.map(item => `
+                            <div class="ink-block fade-in">
+                                <h3>${item.word || item.category || 'Observation'}</h3>
+                                <p>${item.definition || item.use_case || item.description}</p>
+                            </div>
+                        `).join('');
                     }
                 }
-            } else if (Array.isArray(content)) {
-                html += content.map(i => `<div class="ink-block"><h3>${i.category || i.word}</h3><p>${i.description || i.definition}</p></div>`).join('');
-            }
-
-            view.innerHTML = html;
+                
+                view.innerHTML = html;
+                view.style.opacity = 1;
+                lucide.createIcons();
+            }, 300);
         }
+
+        function renderAnchors(anchors) {
+            return `<div class="anchors">` + anchors.map(a => `<li><strong>${a.item}:</strong> ${a.purpose}</li>`).join('') + `</div>`;
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>

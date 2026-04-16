@@ -1,136 +1,164 @@
-/* VINTAGE VARIABLES */
 :root {
-    --brass: #b58921;
-    --dark-wood: #2a1b0a;
-    --paper: #f4ecd8;
-    --ink: #2c2c2c;
-    --border-ink: rgba(0,0,0,0.15);
+    --brass: #c5a059;
+    --brass-glow: rgba(197, 160, 89, 0.4);
+    --dark-wood: #1e130c;
+    --paper: #fdf6e3;
+    --ink: #2b2b2b;
+    --margin-ink: #4b5d67;
 }
 
-/* BACKGROUND & DESK */
+/* BASE */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body.vintage-bg {
-    background: #1a0f05;
+    background: #0f0a07;
     background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
-    margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Georgia', serif;
+    font-family: 'Special Elite', serif;
     overflow: hidden;
 }
 
+/* DESK FRAME */
 .desk-surface {
-    width: 95vw;
-    height: 90vh;
+    width: 96vw;
+    height: 92vh;
     display: flex;
-    box-shadow: 0 0 100px rgba(0,0,0,0.8);
-    border: 15px solid #3d2b1f;
-    border-radius: 8px;
     background: var(--dark-wood);
+    border: 12px solid #322114;
+    box-shadow: 0 0 80px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    animation: flicker 6s infinite;
 }
 
-/* SIDEBAR: THE BRASS CONTROL */
+/* SIDEBAR */
 .brass-sidebar {
-    width: 280px;
-    background: #241a11;
-    border-right: 4px solid var(--brass);
+    width: 260px;
+    background: #1a110a;
+    border-right: 3px solid var(--brass);
+    padding: 40px 15px;
     display: flex;
     flex-direction: column;
-    padding: 40px 20px;
-    color: var(--brass);
 }
 
 .station-stamp {
-    text-align: center;
-    margin-bottom: 50px;
     border: 2px solid var(--brass);
-    padding: 10px;
-    opacity: 0.8;
+    color: var(--brass);
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 40px;
+    opacity: 0.7;
+    transform: rotate(-2deg);
 }
 
 .lever {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 15px;
-    margin-bottom: 10px;
+    gap: 12px;
+    padding: 18px 12px;
+    color: var(--brass);
     cursor: pointer;
+    transition: 0.3s;
     border: 1px solid transparent;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
 }
 
 .lever:hover {
-    background: rgba(181, 137, 33, 0.1);
-    border: 1px solid var(--brass);
+    background: rgba(197, 160, 89, 0.1);
+    border-color: var(--brass);
 }
 
 .lever.active {
     background: var(--brass);
-    color: var(--dark-wood);
-    box-shadow: 0 0 15px var(--brass);
+    color: #1a110a;
+    font-weight: bold;
+    box-shadow: 0 0 20px var(--brass-glow);
 }
 
-/* PARCHMENT CONTENT AREA */
+/* CONTENT AREA */
 .parchment-container {
     flex: 1;
-    background-color: var(--paper);
+    background: var(--paper);
     background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    padding: 60px;
+    margin: 20px;
+    padding: 50px;
     overflow-y: auto;
-    position: relative;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+    border-radius: 2px;
 }
 
-.ink-content h1 {
-    font-family: 'Times New Roman', serif;
-    border-bottom: 3px double var(--ink);
-    padding-bottom: 10px;
+.ink-content {
+    max-width: 850px;
+    margin: 0 auto;
+    transition: opacity 0.3s ease;
+}
+
+.chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
     color: var(--ink);
-    letter-spacing: 2px;
+    border-bottom: 4px double var(--ink);
+    margin-bottom: 40px;
+    padding-bottom: 10px;
 }
 
 .ink-block {
-    margin-top: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-ink);
+    margin-bottom: 45px;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+    padding-bottom: 25px;
 }
 
 .ink-block h2 {
-    color: #5d0000;
+    color: #7a1a1a;
+    margin-bottom: 15px;
     font-size: 1.4rem;
 }
 
-.ink-block p {
-    line-height: 1.6;
-    font-size: 1.1rem;
+.main-text {
+    line-height: 1.7;
     color: var(--ink);
+    font-size: 1.15rem;
 }
 
 .marginalia {
-    display: block;
-    font-style: italic;
-    font-family: 'Brush Script MT', cursive; /* Handwritten feel */
-    color: #3b4d61;
-    margin-top: 10px;
-    font-size: 1.2rem;
+    font-family: 'Dancing Script', cursive;
+    color: var(--margin-ink);
+    font-size: 1.3rem;
+    margin-top: 15px;
+    padding-left: 20px;
+    border-left: 2px solid var(--brass);
 }
 
-/* TICKET STUB AT BOTTOM */
+.anchors {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #555;
+    background: rgba(0,0,0,0.03);
+    padding: 10px;
+}
+
+/* TICKET */
 .ticket-stub {
     margin-top: auto;
-    border: 2px dashed var(--brass);
-    padding: 10px;
+    border-top: 2px dashed var(--brass);
+    color: var(--brass);
+    padding-top: 20px;
     text-align: center;
-    font-weight: bold;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
 }
 
-/* SMOOTH FADE */
+/* ANIMATIONS */
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.98; }
+}
+
 .fade-in {
-    animation: fadeIn 0.8s ease forwards;
+    animation: fadeIn 0.6s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -138,6 +166,7 @@ body.vintage-bg {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* CUSTOM SCROLLBAR */
-.parchment-container::-webkit-scrollbar { width: 10px; }
-.parchment-container::-webkit-scrollbar-thumb { background: var(--brass); border-radius: 5px; }
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--brass); }
