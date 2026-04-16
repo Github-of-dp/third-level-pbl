@@ -3,97 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE THIRD LEVEL | PROJECT</title>
+    <title>Third Level | Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="grain"></div>
 
-    <nav class="side-nav">
-        <div class="nav-item" onclick="scrollLevel(0)">I. PSYCHE</div>
-        <div class="nav-item" onclick="scrollLevel(1)">II. STRESS</div>
-        <div class="nav-item" onclick="scrollLevel(2)">III. PORTAL</div>
-        <div class="nav-item" onclick="scrollLevel(3)">IV. VERDICT</div>
-    </nav>
-
-    <div class="level-wrapper">
-        <section class="level" id="level-0">
-            <div class="container">
-                <h1 class="glitch-text" id="psych-title"></h1>
-                <h3 id="psych-sub"></h3>
-                <p id="psych-content"></p>
-                <div id="psych-list" class="points-grid"></div>
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i data-lucide="layers"></i>
+            <span>LEVEL.03</span>
+        </div>
+        <nav class="menu">
+            <div class="menu-item active" onclick="loadTab('psychology', this)">
+                <i data-lucide="brain"></i> <span>Psychology</span>
             </div>
-        </section>
-
-        <section class="level" id="level-1">
-            <div class="container">
-                <h1 id="comp-title"></h1>
-                <div class="comparison-flex">
-                    <div class="comp-box">
-                        <h3>1894</h3>
-                        <ul id="vintage-list"></ul>
-                    </div>
-                    <div class="comp-box">
-                        <h3>2026</h3>
-                        <ul id="modern-list"></ul>
-                    </div>
-                </div>
+            <div class="menu-item" onclick="loadTab('comparison', this)">
+                <i data-lucide="git-compare"></i> <span>Stress Gap</span>
             </div>
-        </section>
-
-        <section class="level" id="level-2">
-            <div class="container">
-                <h1 id="hist-title"></h1>
-                <h3 id="hist-sub"></h3>
-                <p id="hist-content" class="large-text"></p>
+            <div class="menu-item" onclick="loadTab('history', this)">
+                <i data-lucide="map"></i> <span>The Hub</span>
             </div>
-        </section>
-
-        <section class="level" id="level-3">
-            <div class="container">
-                <div class="final-card">
-                    <h1 id="v-title"></h1>
-                    <p id="v-content"></p>
-                </div>
+            <div class="menu-item" onclick="loadTab('verdict', this)">
+                <i data-lucide="check-circle"></i> <span>The Verdict</span>
             </div>
-        </section>
-    </div>
+        </nav>
+    </aside>
 
-    <script>
-        let data = {};
-        fetch('/get_research')
-            .then(res => res.json())
-            .then(resData => {
-                data = resData;
-                populate();
-            });
+    <main class="content">
+        <header class="content-header">
+            <h1 id="view-title">Loading...</h1>
+            <p id="view-desc"></p>
+        </header>
 
-        function populate() {
-            document.getElementById('psych-title').innerText = data.psychology.title;
-            document.getElementById('psych-sub').innerText = data.psychology.subtitle;
-            document.getElementById('psych-content').innerText = data.psychology.content;
-            document.getElementById('psych-list').innerHTML = data.psychology.points.map(p => `<div class='point'>${p}</div>`).join('');
+        <div id="dynamic-content" class="animate__animated">
+            </div>
+    </main>
+</div>
 
-            document.getElementById('comp-title').innerText = data.comparison.title;
-            document.getElementById('vintage-list').innerHTML = data.comparison.vintage_stress.map(s => `<li>${s}</li>`).join('');
-            document.getElementById('modern-list').innerHTML = data.comparison.modern_stress.map(s => `<li>${s}</li>`).join('');
+<script>
+    let rData = {};
 
-            document.getElementById('hist-title').innerText = data.history.title;
-            document.getElementById('hist-sub').innerText = data.history.subtitle;
-            document.getElementById('hist-content').innerText = data.history.content;
+    fetch('/get_research')
+        .then(res => res.json())
+        .then(data => {
+            rData = data;
+            loadTab('psychology', document.querySelector('.menu-item'));
+            lucide.createIcons();
+        });
 
-            document.getElementById('v-title').innerText = data.verdict.title;
-            document.getElementById('v-content').innerText = data.verdict.content;
+    function loadTab(key, el) {
+        const data = rData[key];
+        const container = document.getElementById('dynamic-content');
+        
+        // UI Updates
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('view-title').innerText = data.title;
+        document.getElementById('view-desc').innerText = data.description;
+
+        // Animation
+        container.classList.remove('animate__fadeInUp');
+        void container.offsetWidth; // Trigger reflow
+        container.classList.add('animate__fadeInUp');
+
+        if(key === 'psychology') {
+            container.innerHTML = `<div class="card-grid">${data.content.map(c => `
+                <div class="card">
+                    <h3>${c.label}</h3>
+                    <p>${c.text}</p>
+                </div>`).join('')}</div>`;
+        } else if(key === 'comparison') {
+            container.innerHTML = `
+                <div class="comp-wrapper">
+                    <div class="comp-card"><h4>1890s</h4><ul>${data.vintage.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                    <div class="comp-card highlight"><h4>2026</h4><ul>${data.modern.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                </div>`;
+        } else if(key === 'history') {
+            container.innerHTML = `<div class="card long-card"><p>${data.details}</p></div>`;
+        } else {
+            container.innerHTML = `<div class="card verdict-card"><p>${data.analysis}</p></div>`;
         }
-
-        function scrollLevel(idx) {
-            gsap.to(".level-wrapper", { x: -(idx * 100) + "vw", duration: 1.5, ease: "power4.inOut" });
-            document.querySelectorAll('.nav-item').forEach((item, i) => {
-                item.style.opacity = (i === idx) ? "1" : "0.3";
-            });
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

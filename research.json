@@ -1,36 +1,46 @@
 {
     "psychology": {
-        "title": "Neurological Escapism",
-        "subtitle": "The Cognitive Flight Mechanism",
-        "content": "Escapism in psychology is defined as a 'dissociative state' used to mitigate chronic stress. While 'restorative escapism' (like reading) builds resilience, 'avoidant escapism'—like Charley’s obsession—leads to Maladaptive Daydreaming. This is a neurological attempt to bypass the Prefrontal Cortex's stress signals by flooding the brain with dopamine-rich nostalgia.",
-        "points": [
-            "<strong>Avoidance Coping:</strong> Denying reality to reduce immediate anxiety.",
-            "<strong>The Nostalgia Filter:</strong> The brain's tendency to prune negative memories from the past.",
-            "<strong>Cognitive Dissonance:</strong> The tension Charley feels between his modern life and his 'truth'."
+        "title": "Psychological Framework",
+        "description": "The Mechanics of the Escapist Mind",
+        "content": [
+            {
+                "label": "Avoidance Coping",
+                "text": "Escapism acts as a 'buffer' against reality. In psychology, it is often a response to cognitive dissonance—the mental discomfort of living in a reality that doesn't match one's desires."
+            },
+            {
+                "label": "The Nostalgia Loop",
+                "text": "The brain's Hippocampus often filters out negative historical data, leaving only 'Rosy Retrospection.' This explains why Charley views the 1890s as peaceful despite its actual hardships."
+            },
+            {
+                "label": "Neuro-Response",
+                "text": "Chronic stress releases Cortisol. Escapist activities trigger the reward system to release Dopamine, creating a temporary 'level' of mental safety."
+            }
         ]
     },
     "comparison": {
-        "title": "Temporal Stress Analysis",
-        "subtitle": "1894 Industrialism vs. 2026 Digitalism",
-        "modern_stress": [
-            "<strong>Algorithmic Anxiety:</strong> The pressure of constant social comparison.",
-            "<strong>Digital Burnout:</strong> The blurring of work-life boundaries due to 24/7 connectivity.",
-            "<strong>Eco-Anxiety:</strong> Modern global stressors that did not exist in the 19th century."
+        "title": "Temporal Conflict",
+        "description": "Comparative Stress Analysis: 1894 vs 2026",
+        "vintage": [
+            "Neurasthenia (The 'Nerve' Epidemic)",
+            "Post-Civil War Societal Trauma",
+            "Physical Industrial Exhaustion",
+            "Lack of Labor Rights & Security"
         ],
-        "vintage_stress": [
-            "<strong>Neurasthenia:</strong> A 19th-century term for 'nerve exhaustion' from the new pace of steam power.",
-            "<strong>Post-War Trauma:</strong> Lingering societal scars from the Civil War era.",
-            "<strong>Industrial Rigidity:</strong> Extreme physical labor and total lack of workplace safety."
+        "modern": [
+            "Digital Burnout & Screen Fatigue",
+            "Algorithmic Competition Anxiety",
+            "Global Environmental Stress",
+            "24/7 Information Overload"
         ]
     },
     "history": {
-        "title": "Grand Central: The Labyrinth",
-        "subtitle": "Architectural Liminality",
-        "content": "Grand Central Terminal is a 'liminal space'—a place of transition where time feels suspended. Built on a celestial map (the zodiac ceiling), it represents the human desire to connect the mundane (trains) with the eternal (stars). In Finney's narrative, the station is a biological entity, a 'tree' growing roots into the past to save those drowning in the present."
+        "title": "Grand Central Terminal",
+        "description": "The Architectural Portal",
+        "details": "Grand Central is a 'liminal space'—a gateway between states of being. Its 1913 reconstruction created a labyrinthine depth that Jack Finney uses as a metaphor for the human subconscious. Just as the station has hidden tracks, the mind has hidden 'levels' of memory."
     },
     "verdict": {
-        "title": "Solution or Fatal Illusion?",
-        "subtitle": "The Final Verdict",
-        "content": "The Third Level is a fatal siren song. To accept the 1890s as a 'solution' is to ignore the progress of medicine and human rights. Charley does not find a solution; he finds a hiding spot. True psychological health requires 'Active Adaptation'—changing the present—rather than 'Passive Regression' into a fictionalized past."
+        "title": "The Final Verdict",
+        "description": "Solution or Fatal Illusion?",
+        "analysis": "The Third Level is ultimately a <strong>Failure of Adaptation</strong>. While the 1890s appear calm, retreating into them is a form of 'Passive Regression.' A true solution requires <strong>Active Resilience</strong>—confronting the stressors of 2026 rather than hiding in a romanticized, non-existent past."
     }
 }
