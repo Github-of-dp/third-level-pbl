@@ -3,46 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE THIRD LEVEL | AI ARCHIVE</title>
+    <title>THE THIRD LEVEL | RESEARCH PORTAL</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="dribbble-layout">
+<body class="light-dashboard">
 
-    <div class="glow-bg"></div>
-
-    <div class="dashboard-container">
+    <div class="app-frame">
         <aside class="sidebar">
-            <div class="logo-area">
-                <div class="logo-box">L3</div>
+            <div class="logo">
+                <div class="logo-icon">III</div>
             </div>
-            <nav class="nav-icons">
-                <div class="icon-btn active" onclick="loadChapter('chapter_1_psychological_profiling', this)" data-name="Psyche">
+            <nav class="nav-menu">
+                <div class="nav-item active" onclick="loadChapter('chapter_1_psychological_profiling', this)" data-name="Psyche">
                     <i data-lucide="brain"></i>
+                    <span>Psychology</span>
                 </div>
-                <div class="icon-btn" onclick="loadChapter('chapter_2_socio_economic_stress_gap', this)" data-name="Stress">
-                    <i data-lucide="zap"></i>
+                <div class="nav-item" onclick="loadChapter('chapter_2_socio_economic_stress_gap', this)" data-name="Stress">
+                    <i data-lucide="activity"></i>
+                    <span>Stress Gap</span>
                 </div>
-                <div class="icon-btn" onclick="loadChapter('chapter_3_architectural_symbolism', this)" data-name="Space">
-                    <i data-lucide="layout"></i>
+                <div class="nav-item" onclick="loadChapter('chapter_3_architectural_symbolism', this)" data-name="Space">
+                    <i data-lucide="building-2"></i>
+                    <span>Architecture</span>
                 </div>
-                <div class="icon-btn" onclick="loadChapter('chapter_4_sam_weiner_dossier', this)" data-name="Dossier">
-                    <i data-lucide="search"></i>
+                <div class="nav-item" onclick="loadChapter('chapter_4_sam_weiner_dossier', this)" data-name="Dossier">
+                    <i data-lucide="file-text"></i>
+                    <span>The Dossier</span>
                 </div>
-                <div class="icon-btn" onclick="loadChapter('chapter_5_glossary_of_concepts', this)" data-name="Index">
-                    <i data-lucide="database"></i>
+                <div class="nav-item" onclick="loadChapter('chapter_5_glossary_of_concepts', this)" data-name="Index">
+                    <i data-lucide="library"></i>
+                    <span>Reference</span>
                 </div>
             </nav>
         </aside>
 
-        <main class="workspace">
-            <header class="top-bar">
-                <div class="breadcrumb">PBL / <span id="current-segment">PSYCHE</span></div>
-                <div class="user-status">RESEARCHER_MODE <span class="dot"></span></div>
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-info">
+                    <p class="kicker">Manoj, Dhrupad / Grade 12 PBL</p>
+                    <h1 id="page-title">Psychological Profiling</h1>
+                </div>
+                <div class="user-profile">
+                    <div class="status-indicator">SYSTEM_ONLINE</div>
+                </div>
             </header>
 
-            <div id="content-grid" class="bento-grid">
+            <div id="bento-container" class="bento-grid">
                 </div>
         </main>
     </div>
@@ -54,33 +62,36 @@
             try {
                 const res = await fetch('/get_research');
                 db = await res.json();
-                loadChapter('chapter_1_psychological_profiling', document.querySelector('.icon-btn'));
+                loadChapter('chapter_1_psychological_profiling', document.querySelector('.nav-item'));
                 lucide.createIcons();
-            } catch (err) { console.error(err); }
+            } catch (err) { console.error("Data Load Error:", err); }
         }
 
         function loadChapter(key, el) {
-            const grid = document.getElementById('content-grid');
-            const breadcrumb = document.getElementById('current-segment');
+            const container = document.getElementById('bento-container');
+            const title = document.getElementById('page-title');
 
-            document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            breadcrumb.innerText = el.getAttribute('data-name').toUpperCase();
+            title.innerText = el.getAttribute('data-name');
 
-            grid.style.opacity = 0;
+            container.style.opacity = 0;
+            container.style.transform = "translateY(10px)";
+
             setTimeout(() => {
-                grid.innerHTML = renderBento(db[key]);
-                grid.style.opacity = 1;
+                container.innerHTML = renderCards(db[key]);
+                container.style.opacity = 1;
+                container.style.transform = "translateY(0)";
                 lucide.createIcons();
-            }, 250);
+            }, 200);
         }
 
-        function renderBento(node) {
+        function renderCards(node) {
             let html = "";
-            if (typeof node === 'string') return `<div class="card full-span"><p>${node}</p></div>`;
+            if (typeof node === 'string') return `<div class="card full"><p>${node}</p></div>`;
             
             if (Array.isArray(node)) {
-                html += `<div class="card full-span"><div class="card-label">Reference Data</div><ul class="clean-list">`;
+                html += `<div class="card full"><h3>References</h3><ul class="ref-list">`;
                 node.forEach(i => {
                     html += `<li>${typeof i === 'object' ? `<strong>${i.word || i.item || i.author}:</strong> ${i.definition || i.purpose || i.title}` : i}</li>`;
                 });
@@ -88,20 +99,20 @@
             }
 
             if (typeof node === 'object') {
-                const title = node.label || node.concept || node.term || node.word || "";
-                const body = node.depth_analysis || node.description || node.truth || node.definition || "";
-                const meta = node.clinical_notes || node.sociological_result || "";
+                const h = node.label || node.concept || node.term || node.word || "";
+                const b = node.depth_analysis || node.description || node.truth || node.definition || "";
+                const m = node.clinical_notes || node.sociological_result || "";
 
-                if (title || body) {
+                if (h || b) {
                     html += `
                         <div class="card">
-                            <div class="card-label">Analysis Node</div>
-                            <h3>${title}</h3>
-                            <p>${body}</p>
-                            ${meta ? `<div class="meta-info">${meta}</div>` : ''}
+                            <div class="card-tag">Research Node</div>
+                            <h2>${h}</h2>
+                            <p>${b}</p>
+                            ${m ? `<div class="card-footer">${m}</div>` : ''}
                         </div>`;
                 } else {
-                    Object.values(node).forEach(v => html += renderBento(v));
+                    Object.values(node).forEach(v => html += renderCards(v));
                 }
             }
             return html;
