@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Third Level | Research</title>
+    <title>The Third Level | Research Journal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -36,51 +36,54 @@
             try {
                 const response = await fetch('/get_research');
                 db = await response.json();
+                console.log("Database Loaded:", db);
+                // Load first chapter automatically
                 loadChapter('chapter_1_psychological_profiling', document.querySelector('.nav-item'));
             } catch (err) {
-                console.error("Fetch Error:", err);
+                console.error("Critical Error Loading JSON:", err);
             }
         }
 
         function loadChapter(key, el) {
-            const data = db[key];
+            const chapterData = db[key];
             const view = document.getElementById('view');
 
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
 
-            // Scroll to top
             view.scrollTo({top: 0, behavior: 'smooth'});
 
             let html = `<div class="fade-in">`;
-            html += `<p class="chapter-num">${key.split('_')[1].toUpperCase()}</p>`;
+            html += `<p class="chapter-num">CHAPTER ${key.split('_')[1]}</p>`;
             html += `<h1 class="article-title">${key.replace(/_/g, ' ').split(' ').slice(2).join(' ').toUpperCase()}</h1>`;
             
-            if (data) {
-                Object.keys(data).forEach(sectionKey => {
-                    const section = data[sectionKey];
+            if (chapterData) {
+                // Iterate through every sub-section in the chapter
+                Object.keys(chapterData).forEach(sectionKey => {
+                    const section = chapterData[sectionKey];
 
+                    // Logic for Objects (Theories, Stressors, etc.)
                     if (typeof section === 'object' && !Array.isArray(section)) {
-                        const title = section.label || section.concept || section.term || sectionKey.replace(/_/g, ' ');
-                        const body = section.depth_analysis || section.description || section.truth || section.definition || section.content || "";
-                        const note = section.clinical_notes || section.sociological_result || section.thematic_link || "";
-
-                        html += `
-                            <section class="article-section">
-                                <h2>${title}</h2>
-                                <p>${body}</p>
-                                ${note ? `<aside class="pull-quote">${note}</aside>` : ''}
-                                ${section.sensory_anchors ? `
-                                    <div class="data-box">
-                                        <h4>Observations</h4>
-                                        <ul>${section.sensory_anchors.map(a => `<li><strong>${a.item}:</strong> ${a.purpose}</li>`).join('')}</ul>
-                                    </div>` : ''}
-                            </section>`;
-                    } else if (Array.isArray(section)) {
-                        html += `<section class="article-section"><h3>${sectionKey.replace(/_/g, ' ')}</h3><ul>`;
+                        
+                        // Handle even deeper nesting (like Modern vs Vintage inside Chapter 2)
+                        if (sectionKey.includes('modern') || sectionKey.includes('vintage') || sectionKey.includes('evaluation')) {
+                             html += `<h2 class="sub-chapter-head">${sectionKey.replace(/_/g, ' ').toUpperCase()}</h2>`;
+                             Object.keys(section).forEach(subKey => {
+                                 const item = section[subKey];
+                                 if (typeof item === 'object') {
+                                     html += renderSection(item, subKey);
+                                 }
+                             });
+                        } else {
+                            html += renderSection(section, sectionKey);
+                        }
+                    } 
+                    // Logic for Arrays (Glossary, Bibliography)
+                    else if (Array.isArray(section)) {
+                        html += `<section class="article-section"><h3>${sectionKey.replace(/_/g, ' ').toUpperCase()}</h3><ul class="clean-list">`;
                         section.forEach(item => {
                             if (typeof item === 'object') {
-                                html += `<li><strong>${item.word || item.author || item.category || ''}:</strong> ${item.definition || item.title || item.use_case || ''}</li>`;
+                                html += `<li><strong>${item.word || item.author || item.item || ''}:</strong> ${item.definition || item.title || item.purpose || ''}</li>`;
                             } else {
                                 html += `<li>${item}</li>`;
                             }
@@ -88,9 +91,27 @@
                         html += `</ul></section>`;
                     }
                 });
+            } else {
+                html += `<p>Data node [${key}] not found in research.json.</p>`;
             }
+
             html += `</div>`;
             view.innerHTML = html;
+        }
+
+        // Helper function to render individual blocks of text
+        function renderSection(data, fallbackTitle) {
+            const title = data.label || data.concept || data.term || data.word || fallbackTitle.replace(/_/g, ' ');
+            const body = data.depth_analysis || data.description || data.truth || data.definition || data.content || data.initial_assessment || "";
+            const note = data.clinical_notes || data.sociological_result || data.physical_cost || data.thematic_link || data.impact || "";
+            
+            let block = `
+                <section class="article-section">
+                    <h2>${title}</h2>
+                    <p>${body}</p>
+                    ${note && note.length > 5 ? `<aside class="pull-quote">${note}</aside>` : ''}
+                </section>`;
+            return block;
         }
 
         window.onload = init;

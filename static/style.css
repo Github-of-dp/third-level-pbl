@@ -1,9 +1,8 @@
 :root {
     --bg: #ffffff;
-    --text: #1a1a1a;
-    --accent: #555555;
-    --light-grey: #f9f9f9;
-    --border: #e0e0e0;
+    --text: #111111;
+    --accent: #666666;
+    --border: #eeeeee;
 }
 
 body {
@@ -11,58 +10,52 @@ body {
     color: var(--text);
     margin: 0;
     font-family: 'Inter', sans-serif;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
-/* HEADER */
 .main-header {
-    padding: 60px 20px 20px 20px;
+    padding: 80px 20px 40px;
     text-align: center;
     border-bottom: 1px solid var(--border);
 }
 
 .logo {
     font-family: 'Libre Baskerville', serif;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
-    letter-spacing: -1px;
 }
 
 .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     color: var(--accent);
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-/* CONTAINER */
 .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 250px 1fr;
-    height: calc(100vh - 160px);
+    grid-template-columns: 300px 1fr;
+    min-height: 80vh;
 }
 
-/* SIDE NAV */
 .side-nav {
-    padding: 40px 20px;
+    padding: 60px 40px;
     border-right: 1px solid var(--border);
 }
 
-.side-nav ul { list-style: none; padding: 0; }
+.side-nav ul { list-style: none; padding: 0; position: sticky; top: 40px; }
 
 .nav-item {
-    padding: 12px 0;
+    padding: 15px 0;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--accent);
-    transition: color 0.3s;
+    transition: 0.3s;
     border-bottom: 1px solid transparent;
 }
-
-.nav-item:hover { color: var(--text); }
 
 .nav-item.active {
     color: var(--text);
@@ -70,77 +63,63 @@ body {
     border-bottom: 1px solid var(--text);
 }
 
-/* CONTENT AREA */
 .content-area {
-    padding: 40px 100px;
+    padding: 60px 10%;
+    max-height: 100vh;
     overflow-y: auto;
 }
 
 .chapter-num {
-    font-size: 0.8rem;
-    letter-spacing: 2px;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
     color: var(--accent);
+    margin-bottom: 5px;
 }
 
 .article-title {
     font-family: 'Libre Baskerville', serif;
-    font-size: 2.8rem;
-    margin: 10px 0 60px 0;
+    font-size: 3rem;
+    margin-bottom: 80px;
+    line-height: 1.1;
 }
 
-.article-section {
-    margin-bottom: 60px;
-    max-width: 700px;
+.sub-chapter-head {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: #999;
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+    margin-top: 60px;
 }
+
+.article-section { margin-bottom: 80px; }
 
 .article-section h2 {
     font-family: 'Libre Baskerville', serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 20px;
 }
 
-.article-section p {
-    font-size: 1.15rem;
-    color: #333;
-    margin-bottom: 25px;
-}
+.article-section p { font-size: 1.2rem; color: #222; }
 
-/* MODERN PULL QUOTE */
 .pull-quote {
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
-    font-size: 1.3rem;
-    padding-left: 30px;
-    border-left: 3px solid var(--text);
-    margin: 40px 0;
+    font-size: 1.2rem;
+    padding-left: 25px;
+    border-left: 2px solid #000;
+    margin: 30px 0;
     color: var(--accent);
 }
 
-/* DATA BOX */
-.data-box {
-    background: var(--light-grey);
-    padding: 30px;
-    border-left: 5px solid var(--border);
-    margin-top: 20px;
-}
+.clean-list { line-height: 2.2; font-size: 1.1rem; }
 
-.data-box h4 {
-    margin-top: 0;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-}
-
-/* ANIMATION */
-.fade-in {
-    animation: fadeIn 0.8s ease-in-out;
-}
+.fade-in { animation: fadeIn 1s ease; }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* SCROLLBAR */
-.content-area::-webkit-scrollbar { width: 5px; }
-.content-area::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #ddd; }
