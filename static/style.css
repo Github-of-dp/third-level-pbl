@@ -1,172 +1,146 @@
 :root {
-    --brass: #c5a059;
-    --brass-glow: rgba(197, 160, 89, 0.4);
-    --dark-wood: #1e130c;
-    --paper: #fdf6e3;
-    --ink: #2b2b2b;
-    --margin-ink: #4b5d67;
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --accent: #555555;
+    --light-grey: #f9f9f9;
+    --border: #e0e0e0;
 }
 
-/* BASE */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body.vintage-bg {
-    background: #0f0a07;
-    background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Special Elite', serif;
-    overflow: hidden;
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
 }
 
-/* DESK FRAME */
-.desk-surface {
-    width: 96vw;
-    height: 92vh;
-    display: flex;
-    background: var(--dark-wood);
-    border: 12px solid #322114;
-    box-shadow: 0 0 80px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.5);
-    border-radius: 4px;
-    animation: flicker 6s infinite;
-}
-
-/* SIDEBAR */
-.brass-sidebar {
-    width: 260px;
-    background: #1a110a;
-    border-right: 3px solid var(--brass);
-    padding: 40px 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.station-stamp {
-    border: 2px solid var(--brass);
-    color: var(--brass);
-    padding: 15px;
+/* HEADER */
+.main-header {
+    padding: 60px 20px 20px 20px;
     text-align: center;
-    margin-bottom: 40px;
-    opacity: 0.7;
-    transform: rotate(-2deg);
+    border-bottom: 1px solid var(--border);
 }
 
-.lever {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 18px 12px;
-    color: var(--brass);
+.logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-top: 10px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    height: calc(100vh - 160px);
+}
+
+/* SIDE NAV */
+.side-nav {
+    padding: 40px 20px;
+    border-right: 1px solid var(--border);
+}
+
+.side-nav ul { list-style: none; padding: 0; }
+
+.nav-item {
+    padding: 12px 0;
     cursor: pointer;
-    transition: 0.3s;
-    border: 1px solid transparent;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: var(--accent);
+    transition: color 0.3s;
+    border-bottom: 1px solid transparent;
 }
 
-.lever:hover {
-    background: rgba(197, 160, 89, 0.1);
-    border-color: var(--brass);
-}
+.nav-item:hover { color: var(--text); }
 
-.lever.active {
-    background: var(--brass);
-    color: #1a110a;
-    font-weight: bold;
-    box-shadow: 0 0 20px var(--brass-glow);
+.nav-item.active {
+    color: var(--text);
+    font-weight: 600;
+    border-bottom: 1px solid var(--text);
 }
 
 /* CONTENT AREA */
-.parchment-container {
-    flex: 1;
-    background: var(--paper);
-    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    margin: 20px;
-    padding: 50px;
+.content-area {
+    padding: 40px 100px;
     overflow-y: auto;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
-    border-radius: 2px;
 }
 
-.ink-content {
-    max-width: 850px;
-    margin: 0 auto;
-    transition: opacity 0.3s ease;
-}
-
-.chapter-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    color: var(--ink);
-    border-bottom: 4px double var(--ink);
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-}
-
-.ink-block {
-    margin-bottom: 45px;
-    border-bottom: 1px dashed rgba(0,0,0,0.1);
-    padding-bottom: 25px;
-}
-
-.ink-block h2 {
-    color: #7a1a1a;
-    margin-bottom: 15px;
-    font-size: 1.4rem;
-}
-
-.main-text {
-    line-height: 1.7;
-    color: var(--ink);
-    font-size: 1.15rem;
-}
-
-.marginalia {
-    font-family: 'Dancing Script', cursive;
-    color: var(--margin-ink);
-    font-size: 1.3rem;
-    margin-top: 15px;
-    padding-left: 20px;
-    border-left: 2px solid var(--brass);
-}
-
-.anchors {
-    margin-top: 15px;
-    font-size: 0.95rem;
-    color: #555;
-    background: rgba(0,0,0,0.03);
-    padding: 10px;
-}
-
-/* TICKET */
-.ticket-stub {
-    margin-top: auto;
-    border-top: 2px dashed var(--brass);
-    color: var(--brass);
-    padding-top: 20px;
-    text-align: center;
-    font-size: 0.7rem;
+.chapter-num {
+    font-size: 0.8rem;
     letter-spacing: 2px;
+    color: var(--accent);
 }
 
-/* ANIMATIONS */
-@keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.98; }
+.article-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.8rem;
+    margin: 10px 0 60px 0;
 }
 
+.article-section {
+    margin-bottom: 60px;
+    max-width: 700px;
+}
+
+.article-section h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.article-section p {
+    font-size: 1.15rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* MODERN PULL QUOTE */
+.pull-quote {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    padding-left: 30px;
+    border-left: 3px solid var(--text);
+    margin: 40px 0;
+    color: var(--accent);
+}
+
+/* DATA BOX */
+.data-box {
+    background: var(--light-grey);
+    padding: 30px;
+    border-left: 5px solid var(--border);
+    margin-top: 20px;
+}
+
+.data-box h4 {
+    margin-top: 0;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* ANIMATION */
 .fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* SCROLLBAR */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--paper); }
-::-webkit-scrollbar-thumb { background: var(--brass); }
+.content-area::-webkit-scrollbar { width: 5px; }
+.content-area::-webkit-scrollbar-thumb { background: var(--border); }

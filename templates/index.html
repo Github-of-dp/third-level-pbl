@@ -3,48 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE THIRD LEVEL | RESEARCH DOSSIER</title>
+    <title>The Third Level | Research</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-<body class="vintage-bg">
+<body>
 
-    <div class="desk-surface">
-        <aside class="brass-sidebar">
-            <div class="station-stamp">
-                <i data-lucide="train"></i>
-                <div class="stamp-text">G.C.T 1894</div>
-            </div>
-            
-            <nav class="lever-menu">
-                <div class="lever active" onclick="loadChapter('chapter_1_psychological_profiling', this)">
-                    <i data-lucide="brain"></i> <span>I. PSYCHE</span>
-                </div>
-                <div class="lever" onclick="loadChapter('chapter_2_socio_economic_stress_gap', this)">
-                    <i data-lucide="clock"></i> <span>II. STRESS</span>
-                </div>
-                <div class="lever" onclick="loadChapter('chapter_3_architectural_symbolism', this)">
-                    <i data-lucide="map"></i> <span>III. ARCHITECTURE</span>
-                </div>
-                <div class="lever" onclick="loadChapter('chapter_4_sam_weiner_dossier', this)">
-                    <i data-lucide="mail"></i> <span>IV. SAM'S FILE</span>
-                </div>
-                <div class="lever" onclick="loadChapter('chapter_5_glossary_of_concepts', this)">
-                    <i data-lucide="book-open"></i> <span>V. GLOSSARY</span>
-                </div>
-            </nav>
-            
-            <div class="ticket-stub">
-                <p>LEVEL 03</p>
-                <small>VOID IF DETACHED</small>
-            </div>
-        </aside>
+    <header class="main-header">
+        <div class="logo">THE THIRD LEVEL</div>
+        <div class="subtitle">A Multidisciplinary Research Journal</div>
+    </header>
 
-        <main class="parchment-container">
-            <div id="content-view" class="ink-content">
-                </div>
-        </main>
+    <div class="container">
+        <nav class="side-nav">
+            <ul>
+                <li class="nav-item active" onclick="loadChapter('chapter_1_psychological_profiling', this)">I. Psychology</li>
+                <li class="nav-item" onclick="loadChapter('chapter_2_socio_economic_stress_gap', this)">II. Stress Gap</li>
+                <li class="nav-item" onclick="loadChapter('chapter_3_architectural_symbolism', this)">III. Architecture</li>
+                <li class="nav-item" onclick="loadChapter('chapter_4_sam_weiner_dossier', this)">IV. The Case File</li>
+                <li class="nav-item" onclick="loadChapter('chapter_5_glossary_of_concepts', this)">V. Concepts</li>
+            </ul>
+        </nav>
+
+        <article class="content-area" id="view">
+            </article>
     </div>
 
     <script>
@@ -54,57 +36,61 @@
             try {
                 const response = await fetch('/get_research');
                 db = await response.json();
-                loadChapter('chapter_1_psychological_profiling', document.querySelector('.lever'));
-                lucide.createIcons();
+                loadChapter('chapter_1_psychological_profiling', document.querySelector('.nav-item'));
             } catch (err) {
-                console.error("System Error: Check research.json structure", err);
+                console.error("Fetch Error:", err);
             }
         }
 
         function loadChapter(key, el) {
-            const chapter = db[key];
-            const view = document.getElementById('content-view');
-            
-            // UI Toggle
-            document.querySelectorAll('.lever').forEach(l => l.classList.remove('active'));
+            const data = db[key];
+            const view = document.getElementById('view');
+
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
 
-            // Fade Animation
-            view.style.opacity = 0;
-            
-            setTimeout(() => {
-                let html = `<h1 class="chapter-title">${key.replace(/_/g, ' ').toUpperCase()}</h1>`;
-                
-                // Flexible rendering for different JSON structures
-                for (let sectionKey in chapter) {
-                    const section = chapter[sectionKey];
-                    
-                    if (typeof section === 'object' && !Array.isArray(section)) {
-                        html += `
-                            <div class="ink-block fade-in">
-                                <h2>${section.label || section.concept || section.term || sectionKey.replace(/_/g, ' ')}</h2>
-                                <p class="main-text">${section.depth_analysis || section.description || section.truth || section.initial_assessment || ''}</p>
-                                ${section.clinical_notes ? `<div class="marginalia">${section.clinical_notes}</div>` : ''}
-                                ${section.sensory_anchors ? renderAnchors(section.sensory_anchors) : ''}
-                            </div>`;
-                    } else if (Array.isArray(section)) {
-                        html += section.map(item => `
-                            <div class="ink-block fade-in">
-                                <h3>${item.word || item.category || 'Observation'}</h3>
-                                <p>${item.definition || item.use_case || item.description}</p>
-                            </div>
-                        `).join('');
-                    }
-                }
-                
-                view.innerHTML = html;
-                view.style.opacity = 1;
-                lucide.createIcons();
-            }, 300);
-        }
+            // Scroll to top
+            view.scrollTo({top: 0, behavior: 'smooth'});
 
-        function renderAnchors(anchors) {
-            return `<div class="anchors">` + anchors.map(a => `<li><strong>${a.item}:</strong> ${a.purpose}</li>`).join('') + `</div>`;
+            let html = `<div class="fade-in">`;
+            html += `<p class="chapter-num">${key.split('_')[1].toUpperCase()}</p>`;
+            html += `<h1 class="article-title">${key.replace(/_/g, ' ').split(' ').slice(2).join(' ').toUpperCase()}</h1>`;
+            
+            if (data) {
+                Object.keys(data).forEach(sectionKey => {
+                    const section = data[sectionKey];
+
+                    if (typeof section === 'object' && !Array.isArray(section)) {
+                        const title = section.label || section.concept || section.term || sectionKey.replace(/_/g, ' ');
+                        const body = section.depth_analysis || section.description || section.truth || section.definition || section.content || "";
+                        const note = section.clinical_notes || section.sociological_result || section.thematic_link || "";
+
+                        html += `
+                            <section class="article-section">
+                                <h2>${title}</h2>
+                                <p>${body}</p>
+                                ${note ? `<aside class="pull-quote">${note}</aside>` : ''}
+                                ${section.sensory_anchors ? `
+                                    <div class="data-box">
+                                        <h4>Observations</h4>
+                                        <ul>${section.sensory_anchors.map(a => `<li><strong>${a.item}:</strong> ${a.purpose}</li>`).join('')}</ul>
+                                    </div>` : ''}
+                            </section>`;
+                    } else if (Array.isArray(section)) {
+                        html += `<section class="article-section"><h3>${sectionKey.replace(/_/g, ' ')}</h3><ul>`;
+                        section.forEach(item => {
+                            if (typeof item === 'object') {
+                                html += `<li><strong>${item.word || item.author || item.category || ''}:</strong> ${item.definition || item.title || item.use_case || ''}</li>`;
+                            } else {
+                                html += `<li>${item}</li>`;
+                            }
+                        });
+                        html += `</ul></section>`;
+                    }
+                });
+            }
+            html += `</div>`;
+            view.innerHTML = html;
         }
 
         window.onload = init;
