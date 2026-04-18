@@ -1,5 +1,4 @@
-from flask import Flask, render_template, jsonify
-import json
+from flask import Flask, render_template, send_from_directory
 import os
 
 app = Flask(__name__)
@@ -8,12 +7,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/get_research')
-def get_research():
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    with open(os.path.join(basedir, 'research.json'), 'r') as f:
-        return jsonify(json.load(f))
+# Add this to serve your JSON file
+@app.route('/research.json')
+def serve_json():
+    return send_from_directory(os.getcwd(), 'research.json')
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
